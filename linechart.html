@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html> 
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>SVG Charts</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css"> 
+	<script type="text/javascript" src="scripts/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="scripts/css-pop.js"></script>
+	<script type="text/javascript" src="scripts/raphael-min.js"></script>
+	<script type="text/javascript" src="scripts/g.raphael-min.js"></script>
+	<script type="text/javascript" src="scripts/g.line-min.js"></script>
+    <script type="text/javascript" src="scripts/raphael.export.js"></script>
+    <script type="text/javascript" src="scripts/jscolor/jscolor.js"></script>
+    <script type="text/javascript" src="scripts/global.js"></script>
+    <script type="text/javascript" src="scripts/linechart.js"></script>
+</head>
+
+<body>
+	<div id="controls_container" class="controls_container">
+		<table class="controls">
+			<tbody>
+				<tr>
+					<td>
+						<input class="button" type="button" id="config" name="config" value="Config"/>
+					</td>
+					<td>
+						<input class="button" type="button" id="chart_data" name="chart_data" value="Chart Data"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input class="button" type="button" id="generate_chart" name="generate_chart" value="Generate Chart"/>
+					</td>
+					<td>
+						<input class="button special_button" type="button" id="save_chart" name="save_chart" value="Save"/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<ul class="menu">
+			<li><a href="barchart.html">Bar Chart</a></li>
+			<li><a href="linechart.html" class="menu_selected">Line Chart</a></li>
+			<li><a href="piechart.html">Pie Chart</a></li>
+		</ul>
+	</div>
+	<div id="chart" class="chart">
+	</div>
+	<!-- FOR POPUP-->
+	<div id="blanket" class="blanket" style="display:none;">
+	</div>
+	<!-- / FOR POPUP-->
+	<!--POPUP CONFIG BARCHART-->
+	<div class="popup" id="config_chart_container">
+		<form id="form1" name="form1" action="">
+			<table class="input_table">
+				<tbody>
+					<tr>
+						<th>
+							<label for="chart_title">Chart Title</label>
+						</th>
+						<td>
+							<input type="text" id="chart_title" name="chart_title" value="Steel Imports"/>
+						</td>
+						<th>
+							<label for="show_gridlines">Show Grid Lines</label>
+							<input type="checkbox" id="show_gridlines" checked />
+						</th>
+						<th>
+							<label for="show_chart_labels">Show Labels</label>
+							<input type="checkbox" id="show_chart_labels" checked />
+						</th>
+					</tr>
+					<tr>
+						<th>
+							<label for="chart_label">Chart Label</label>
+						</th>
+						<td>
+							<input type="text" id="chart_label" name="chart_label" value="Tonnage (in millions)"/>
+						</td>
+						<th>
+							<label for="show_axis">Show Axis</label>
+							<input type="checkbox" id="show_axis" checked />
+						</th>
+						<th colspan="2">
+							<label for="show_scale">Show Scale</label>
+							<input type="checkbox" id="show_scale" checked />
+						</th>
+					</tr>
+					<tr>
+						<th>
+							<label for="titles_font">Titles Font</label>
+						</th>
+						<td>
+							<input id="titles_font" type="text" value="Arial">
+						</td>
+						<th>
+							<label for="fit_scale">Fit Scale</label>
+							<input type="checkbox" id="fit_scale" checked />
+						</th>
+						<th>
+							<label for="use_background_color">Use Background Color</label>
+							<input type="checkbox" id="use_background_color" checked />
+						</th>
+					</tr>
+					<tr>
+						<th>
+							<label for="scale_intervals">Scale Intervals</label>
+						</th>
+						<td>
+							<input id="scale_intervals" type="text" value="10">
+						</td>
+						<th>
+							<label for="show_groups_labels">Show Groups</label>
+							<input type="checkbox" id="show_groups_labels" checked />
+						</th>
+						<th>
+							<label for="show_groups_background">Show Groups Background</label>
+							<input type="checkbox" id="show_groups_background" checked />
+						</th>
+					</tr>
+					<tr>
+						<th>
+							<label for="min_scale_value">Min Scale Value</label>
+						</th>
+						<td>
+							<input id="min_scale_value" type="number" value="0">
+						</td>
+						<th>
+							<label for="show_legend">Show Legend</label>
+							<input type="checkbox" id="show_legend" checked />
+						</th>
+						<th>
+							<label for="rtl">RTL</label>
+							<input type="checkbox" id="rtl" />
+						</th>
+					</tr>
+					<tr>
+						<th>
+							<label for="max_scale_value">Max Scale Value</label>
+						</th>
+						<td>
+							<input id="max_scale_value" type="number" value="0">
+						</td>
+						<th>
+							<label for="scale_auto">Scale Auto</label>
+							<input type="checkbox" id="scale_auto" checked />
+						</th>
+						<th>
+							<label for="x_axis_on_zero">X Axis On Zero</label>
+							<input type="checkbox" id="x_axis_on_zero" />
+						</th>
+					</tr>
+					<tr>
+						<th colspan="2">
+						</th>
+						<th>
+							<label for="symbol_position">Symbol Position</label>
+						</th>
+						<td>
+							<select id="symbol_position">
+								<option value="prefix">Prefix</option>
+								<option value="postfix">Postfix</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<label for="chart_labels_position">Labels Position</label>
+						</th>
+						<td>
+							<select id="chart_labels_position">
+								<option value="top">Top</option>
+								<option value="inside">Inside</option>
+							</select>
+						</td>
+						<th>
+							<label for="chart_labels_color">Labels Color</label>
+						</th>
+						<td>
+							<input id="chart_labels_color" class="color" type="text" value="000000">
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<label for="background_color">Background Color</label>
+						</th>
+						<td>
+							<input id="background_color" class="color" type="text" value="D1D1D1">
+						</td>
+						<th>
+							<label for="grid_lines_color">Grid Lines Color</label>
+						</th>
+						<td>
+							<input id="grid_lines_color" class="color" type="text" value="FFFFFF">
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<label for="label_background_color">Groups Background Color</label>
+						</th>
+						<td>
+							<input id="label_background_color" class="color" type="text" value="808080">
+						</td>
+						<th>
+							<label for="label_text_color">Groups Text Color</label>
+						</th>
+						<td>
+							<input id="label_text_color" class="color" type="text" value="FFFFFF">
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<label for="width">Width</label>
+						</th>
+						<td>
+							<input id="width" type="number" value="480">
+						</td>
+						<th>
+							<label for="height">Height</label>
+						</th>
+						<td>
+							<input id="height" type="number" value="320">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="poup_buttons">
+				<input class="button" type="button" id="close_config" name="close_config" value="Ok"/>
+			</div>
+		</form>
+	</div>
+	<!-- / POPUP CONFIG BARCHART-->
+	<!--POPUP BARCHART DATA-->
+	<div class="popup" id="data_chart_container">
+		<form id="form2" name="form2" action="">
+			<table class="input_table">
+				<tbody>
+					<tr>
+						<th colspan="4">
+							<label>Groups</label>
+						</th>
+					</tr>
+					<tr>
+						<th>
+							<label for="group_name">Group Name</label>
+						</th>
+						<td>
+							<input type="text" id="group_name" name="group_name" value=""/>
+						</td>
+						<td colspan="2">
+							<input class="button small_button" type="button" id="add_group" name="add_group" value="Add"/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="input_table">
+				<tbody>
+					<tr>
+						<th colspan="4">
+							<label>Series</label>
+						</th>
+					</tr>
+					<tr>
+						<th>
+							<label for="serie_name">Serie Name</label>
+						</th>
+						<td>
+							<input type="text" id="serie_name" name="serie_name" value=""/>
+						</td>
+						<td colspan="2"></td>
+					</tr>
+					<tr>
+						<th>
+							<label for="serie_color">Serie Color</label>
+						</th>
+						<td>
+							<input id="serie_color" class="color" type="text" value="ff930b">
+						</td>
+						<td colspan="2">
+							<input class="button small_button" type="button" id="add_serie" name="add_serie" value="Add"/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="input_table">
+				<tbody>
+					<tr>
+						<th colspan="5">
+							<label>Values</label>
+						</th>
+					</tr>
+					<tr>
+						<th colspan="2">
+							<label for="group">Group</label>
+						</th>
+						<td>
+							<select id="group">
+							</select>
+						</td>
+						<td colspan="2"></td>
+					</tr>
+					<tr>
+						<th colspan="2">
+							<label for="serie">Serie</label>
+						</th>
+						<td>
+							<select id="serie">
+							</select>
+						</td>
+						<td colspan="2"></td>
+					</tr>
+					<tr>
+						<th colspan="2">
+							<label for="value_data">Value</label>
+						</th>
+						<td>
+							<input type="text" id="value_data" value=""/>
+						</td>
+						<td colspan="2">
+							<input class="button small_button" type="button" id="add_value" name="add_value" value="Add"/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="poup_buttons">
+				<input class="button" type="button" id="close_data" name="close_data" value="Ok"/>	
+			</div>
+		</form>
+	</div>
+	<!-- / POPUP BARCHART DATA-->
+</body>
+</html>
