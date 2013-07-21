@@ -62,8 +62,8 @@
 							<input type="text" id="chart_title" name="chart_title" value="Steel Imports"/>
 						</td>
 						<th>
-							<label for="show_gridlines">Show Grid Lines</label>
-							<input type="checkbox" id="show_gridlines" checked />
+							<label for="show_legend">Show Legend</label>
+							<input type="checkbox" id="show_legend" checked />
 						</th>
 						<th>
 							<label for="show_chart_labels">Show Labels</label>
@@ -78,12 +78,12 @@
 							<input type="text" id="chart_label" name="chart_label" value="Tonnage (in millions)"/>
 						</td>
 						<th>
-							<label for="show_axis">Show Axis</label>
-							<input type="checkbox" id="show_axis" checked />
+							<label for="stroke">Pie Stroke</label>
+							<input type="checkbox" id="stroke" />
 						</th>
 						<th colspan="2">
-							<label for="show_scale">Show Scale</label>
-							<input type="checkbox" id="show_scale" checked />
+							<label for="rtl">RTL</label>
+							<input type="checkbox" id="rtl" />
 						</th>
 					</tr>
 					<tr>
@@ -94,42 +94,12 @@
 							<input id="titles_font" type="text" value="Arial">
 						</td>
 						<th>
-							<label for="fit_scale">Fit Scale</label>
-							<input type="checkbox" id="fit_scale" checked />
+							<label for="exploded">Exploded</label>
+							<input type="checkbox" id="exploded" />
 						</th>
 						<th>
-							<label for="use_background_color">Use Background Color</label>
-							<input type="checkbox" id="use_background_color" checked />
+
 						</th>
-					</tr>
-					<tr>
-						<th>
-							<label for="min_scale_value">Min Scale Value</label>
-						</th>
-						<td>
-							<input id="min_scale_value" type="number" value="0">
-						</td>
-						<th>
-							<label for="show_legend">Show Legend</label>
-							<input type="checkbox" id="show_legend" checked />
-						</th>
-						<th>
-							<label for="rtl">RTL</label>
-							<input type="checkbox" id="rtl" />
-						</th>
-					</tr>
-					<tr>
-						<th colspan="2">
-						</th>
-						<th>
-							<label for="symbol_position">Symbol Position</label>
-						</th>
-						<td>
-							<select id="symbol_position">
-								<option value="prefix">Prefix</option>
-								<option value="postfix">Postfix</option>
-							</select>
-						</td>
 					</tr>
 					<tr>
 						<th>
@@ -150,16 +120,19 @@
 					</tr>
 					<tr>
 						<th>
-							<label for="width">Width</label>
+							<label for="symbol_position">Symbol Position</label>
 						</th>
 						<td>
-							<input id="width" type="number" value="480">
+							<select id="symbol_position">
+								<option value="prefix">Prefix</option>
+								<option value="postfix">Postfix</option>
+							</select>
 						</td>
 						<th>
-							<label for="height">Height</label>
+							<label for="radio">Radio</label>
 						</th>
 						<td>
-							<input id="height" type="number" value="320">
+							<input id="radio" type="number" value="100">
 						</td>
 					</tr>
 				</tbody>

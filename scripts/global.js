@@ -67,6 +67,7 @@ function Serie(id, name, color){
 	this.addValue = function(value){
 		this.value = value.match(/[\-]*[\d]+[\.,]*[\d]*/g)[0];
 		this.symbol = $.trim(value.replace(this.value, ""));
+		this.value = parseFloat(this.value);
 	};
 	this.validate = function(){
 		if(this.name.length == 0){
@@ -267,10 +268,12 @@ function getConfiguration(){
 	'chart_label ="' +  $("#chart_label").val() + '",' +
 	'height =' +  $("#height").val() + ',' +
 	'width =' +  $("#width").val() + ',' +
+	'radio =' +  $("#radio").val() + ',' +
 	'min_scale_value =' +  $("#min_scale_value").val() + ',' +
 	'max_scale_value =' +  $("#max_scale_value").val() + ',' +
 	'scale_auto =' +  $("#scale_auto").is(':checked') + ',' +
 	'stroke =' +  $("#stroke").is(':checked') + ',' +
+	'exploded =' +  $("#exploded").is(':checked') + ',' +
 	'x_axis_on_zero =' +  $("#x_axis_on_zero").is(':checked') + ',' +
 	'symbol_position ="' +  $("#symbol_position").val() + '",' +
 	'orientation ="' +  $("#orientation").val() + '",' +
@@ -591,19 +594,24 @@ function validateSettings(){
 	var scale_intervals =  $('#scale_intervals').val(),
 		width = $('#width').val(),
 		height = $('#height').val(),
+		radio = $('#radio').val(),
 		scale_auto = $("#scale_auto").is(':checked'),
 		min_scale_value = $('#min_scale_value').val(),
 		max_scale_value = $('#max_scale_value').val();
-	if(!isNumeric(scale_intervals) || scale_intervals < 1){
+	if(scale_intervals != null && (!isNumeric(scale_intervals) || scale_intervals < 1)){
 		alert('Scale interval must be numeric and greater than 0');
 		return false;
 	}
-	if(!isNumeric(width) || width < 1){
+	if(width != null && (!isNumeric(width) || width < 1)){
 		alert('Width must be numeric and greater than 0');
 		return false;
 	}
-	if(!isNumeric(height) || height < 1){
+	if(height != null && (!isNumeric(height) || height < 1)){
 		alert('Height must be numeric and greater than 0');
+		return false;
+	}
+	if(radio != null && (!isNumeric(radio) || radio < 1)){
+		alert('Radio must be numeric and greater than 0');
 		return false;
 	}
 	if(isInvalidText($('#titles_font').val())){

@@ -62,8 +62,8 @@
 
         function sector(cx, cy, r, startAngle, endAngle, fill) {        	
             var rad = Math.PI / 180,
-	        	cx = cx + r * 0.1 * Math.cos(-(startAngle + (endAngle - startAngle) / 2) * rad),
-	    		cy = cy + r * 0.1 * Math.sin(-(startAngle + (endAngle - startAngle) / 2) * rad),
+	        	cx = cx + r * (opts.exploded ? 0.1 : 0) * Math.cos(-(startAngle + (endAngle - startAngle) / 2) * rad),
+	    		cy = cy + r * (opts.exploded ? 0.1 : 0) * Math.sin(-(startAngle + (endAngle - startAngle) / 2) * rad),
                 x1 = cx + r * Math.cos(-startAngle * rad),
                 x2 = cx + r * Math.cos(-endAngle * rad),
                 xm = cx + r / 2 * Math.cos(-(startAngle + (endAngle - startAngle) / 2) * rad),
@@ -71,8 +71,8 @@
                 y2 = cy + r * Math.sin(-endAngle * rad),
                 ym = cy + r / 2 * Math.sin(-(startAngle + (endAngle - startAngle) / 2) * rad);
 
-            	var xmy = cx + r*1.3 * Math.cos(-(startAngle + (endAngle - startAngle) / 2) * rad),
-            		ymy = cy + r*1.3 * Math.sin(-(startAngle + (endAngle - startAngle) / 2) * rad);
+            	var xmy = cx + r*1.2 * Math.cos(-(startAngle + (endAngle - startAngle) / 2) * rad),
+            		ymy = cy + r*1.2 * Math.sin(-(startAngle + (endAngle - startAngle) / 2) * rad);
             	
                 var res = [
                     "M", cx, cy,
@@ -147,8 +147,19 @@
                 series.push(p);
                 opts.init && p.animate({ path: path.join(",") }, (+opts.init - 1) || 1000, ">");
                 
-                paper.text(path.out.x, path.out.y, values[i].value).attr("text-anchor", "start").attr("font-size", 14);
-                paper.text(path.middle.x, path.middle.y , values[i].value).attr("text-anchor", "start").attr("font-size", 14);
+                if(opts.show_chart_labels){
+    				var str_value = addCommasToNumber(values[i].value);
+        			if(symbol_position == 'prefix'){
+        				str_value = opts.symbols[i].length > 0 ? opts.symbols[i] + ' ' + str_value : str_value;
+        			} else {
+        				str_value = opts.symbols[i].length > 0 ? str_value + ' ' + opts.symbols[i] : str_value;
+        			}
+                	if(opts.chart_labels_position == 'top'){
+                		paper.text(path.out.x, path.out.y, str_value).attr("text-anchor", "middle").attr("font-size", 18);		
+                	} else if(opts.chart_labels_position == 'inside'){
+                		paper.text(path.middle.x, path.middle.y , str_value).attr("text-anchor", "middle").attr("font-size", 18);		
+                	}
+                }
             }
 
             for (i = 0; i < len; i++) {
@@ -247,7 +258,7 @@
         };
 
         var legend = function (labels, otherslabel, mark, dir) {
-            var x = cx + r + r / 5,
+            var x = 60 + cx + r + r / 5,
                 y = cy,
                 h = y + 10;
 
@@ -265,9 +276,9 @@
                 labels[j] = chartinst.labelise(labels[j], values[i], total);
                 chart.labels.push(paper.set());
                 chart.labels[i].push(paper[mark](x + 5, h, 5).attr({ fill: clr, stroke: "none" }));
-                chart.labels[i].push(txt = paper.text(x + 20, h, labels[j] || values[j]).attr(chartinst.txtattr).attr({ fill: opts.legendcolor || "#000", "text-anchor": "start"}));
+                chart.labels[i].push(txt = paper.text(x + 20, h, labels[j] || values[j]).attr(chartinst.txtattr).attr({ fill: opts.legendcolor || "#000", "text-anchor": "start"}).attr("font-size", 18));
                 covers[i].label = chart.labels[i];
-                h += txt.getBBox().height * 1.2;
+                h += txt.getBBox().height * 2;
             }
 
             var bb = chart.labels.getBBox(),
@@ -282,7 +293,7 @@
             chart.push(chart.labels);
         };
 
-        if (opts.legend) {
+        if (opts.show_legend == true && opts.legend) {
             legend(opts.legend, opts.legendothers, opts.legendmark, opts.legendpos);
         }
 
