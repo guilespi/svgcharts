@@ -32,6 +32,7 @@
     		use_background_color, scale_intervals, show_groups_labels, show_groups_background, 
     		titles_font, show_legend, rtl, min_scale_value, max_scale_value, scale_auto, 
     		x_axis_on_zero, symbol_position, data){
+		console.log(data);
     	var data_bundle = parseChartData(data);
     	if(!data_bundle || data_bundle.data.length == 0){
     		return false;
@@ -99,7 +100,7 @@
 	    var options =  {
 				gutter: gutter,
 			    nostroke: false,
-			    symbol: "circle",
+			    symbol: ["triangle", "rect", "circle"],
 			    smooth: false,
 			    colors: series_colors
 			};
@@ -213,7 +214,7 @@
     }
     
     function getXScaleFactor(width, gutter, min, max){
-    	return (width - gutter * 8) / ((max - min) || 1);
+    	return width / max;
     }
     
 	function getYPosIni(y, gutter){
@@ -261,7 +262,7 @@
     		symbol_position){
     	var valuesInterval = max / getCalculatedInterval(min, max, scale_intervals);
     	var y_scale_factor = getYScaleFactor(height, gutter, min, max),
-    		x_scale_factor = getXScaleFactor(width, gutter, 0, groups_names.length - 1);
+    		x_scale_factor = getXScaleFactor(width, gutter, 0, groups_names.length);
     	var font_size = 18;
     	//set axis positions
     	var y_pos_ini = getYPosIni(y, gutter);
@@ -310,15 +311,15 @@
     	}
     	//setting the groups labels
     	if(show_groups_labels){
-	    	var label_text, label_bkg_height = 20, label_margin = 15;
+	    	var label_text, label_bkg_height = 25, label_margin = 15;
 	    	var gap = (width - ((groups_names.length - 1) * x_scale_factor))/2;
 	    	y_value_pos = (y_pos_zero > y_pos_fin || !x_axis_on_zero ? y_pos_fin : y_pos_zero) + label_margin;
-	    	var label_bkg_width, label_bkg_y_pos, label_bkg_x_pos, x_value_pos;
+	    	var label_bkg_width = x_scale_factor, 
+	    		label_bkg_y_pos, label_bkg_x_pos, x_value_pos;
         	label_bkg_y_pos = y_value_pos - (label_bkg_height/2);
         	if(groups_names.length == 1){
 	    		label_bkg_x_pos = x_pos_ini + 1;
 	    		x_value_pos = (x_pos_ini + x_pos_fin)/2;
-	        	label_bkg_width = width;
 	        	if(show_groups_background){
 	        		setBackgroundColor(label_bkg_x_pos, label_bkg_y_pos, label_bkg_width, label_bkg_height, label_background_color);
 	        	}
@@ -328,7 +329,6 @@
         	} else {
         		x_value_pos = x_pos_ini + gap;
             	for(var i=0; i<groups_names.length; i++){
-        	    	label_bkg_width = getTextWidth(groups_names[i]) + 5;
         			label_bkg_x_pos = x_value_pos - (label_bkg_width/2);
             		if(show_groups_background){
             			setBackgroundColor(label_bkg_x_pos, label_bkg_y_pos, label_bkg_width, label_bkg_height, label_background_color)
@@ -368,7 +368,11 @@
 	
     function generateChart(){
     	eval(getConfiguration());
-    	var data = getChartData();
+    	//var data = getChartData();
+    	var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":10,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":40,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":5,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":20,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":50,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":15,"symbol":""}]},{"id":"group_3","name":"g3","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":30,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":25,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":-10,"symbol":""}]}]';
+    	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":123,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":111,"symbol":""}]}]';
+    	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#141CFF","value":123,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"s1","color":"#141CFF","value":111,"symbol":""}]},{"id":"group_3","name":"g3","series":[{"id":"serie_1","name":"s1","color":"#141CFF","value":89,"symbol":""}]}]';
+    	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":10,"symbol":""},{"id":"serie_2","name":"s2","color":"#4621FF","value":40,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":20,"symbol":""},{"id":"serie_2","name":"s2","color":"#4621FF","value":55,"symbol":""}]},{"id":"group_3","name":"g3","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":30,"symbol":""},{"id":"serie_2","name":"s2","color":"#4621FF","value":29,"symbol":""}]}]';
         if(drawLineChart(chart_title, chart_label, height, width, orientation, grid_lines_color,
         		chart_labels_position, chart_labels_color, background_color, label_background_color, 
         		label_text_color, fit_scale, show_scale, show_axis, show_gridlines, show_chart_labels, 

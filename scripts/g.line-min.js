@@ -113,7 +113,7 @@
             ydim = chartinst.snapEnds(Math.min.apply(Math, ally), Math.max.apply(Math, ally), valuesy[0].length - 1),
             miny = min_value,
             maxy = max_value,
-            kx = (width - gutter * 8) / ((maxx - minx) || 1),
+            kx = (width) / allx.length,
             ky = (height - gutter * 2) / ((maxy - miny) || 1);
 
  /*\
@@ -174,8 +174,16 @@
             for (var j = 0, jj = valuesy[i].length; j < jj; j++) {
                 var X = x + gutter + gap + ((valuesx[i] || valuesx[0])[j] - minx) * kx,
                     Y = y + height - gutter - (valuesy[i][j] - miny) * ky;
+
+                if(sym == "circle"){
+                	(Raphael.is(sym, "array") ? sym[j] : sym) && symset.push(paper[Raphael.is(sym, "array") ? sym[j] : sym](X, Y, (opts.width || 2) * 3).attr({ fill: colors[i], stroke: "none" }));	
+                } else if(sym == "rect"){
+                	paper.rect(X - 3, Y - 3, (opts.width || 2) * 5, (opts.width || 2) * 5).attr({ fill: colors[i], stroke: "none" });
+                } else if(sym == "triangle") {
+                    var triangle = "M" + (X-6) + "," + (Y+3) + "L" + (X+6) + "," + (Y+3) + "L" + (X) + "," + (Y+15/-2) + "L" + (X-6) + "," + (Y+3);
+                    paper.path(triangle).attr({ fill: colors[i], stroke: "none" });                	
+                }
                 
-                (Raphael.is(sym, "array") ? sym[j] : sym) && symset.push(paper[Raphael.is(sym, "array") ? sym[j] : sym](X, Y, (opts.width || 2) * 3).attr({ fill: colors[i], stroke: "none" }));
                 if(show_lines_labels){
     				if(Object.prototype.toString.call(value_symbols[i]) === '[object Array]'){
     					str_symbol = value_symbols[i][j];

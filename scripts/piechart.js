@@ -120,8 +120,7 @@
 
     function generateChart(){
     	eval(getConfiguration());
-    	var data = getChartData();
-    	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":10,"symbol":""},{"id":"serie_2","name":"s2","color":"#392BFF","value":20,"symbol":""},{"id":"serie_3","name":"s3","color":"#47FF5A","value":30,"symbol":""}]}]'; 
+    	var data = getChartData(); 
         if(drawPieChart(chart_title, chart_label, height, width, 
         		chart_labels_position, chart_labels_color, show_chart_labels, 
         		titles_font, show_legend, rtl, symbol_position, stroke, exploded, radio, data)){
