@@ -31,7 +31,7 @@ function Group(id, name){
 	this.name = name;
 	this.series = [];
 	this.addSerie = function(serie, value){
-		var s = new Serie(serie.id, serie.name, serie.color);
+		var s = new Serie(serie.id, serie.name, serie.color, serie.dot_type);
 		s.addValue(value);
 		this.series.push(s);
 	};
@@ -57,10 +57,11 @@ function Group(id, name){
 
 Group.next_id = 1;
 
-function Serie(id, name, color){
+function Serie(id, name, color, dot_type){
 	this.id = id;
 	this.name = name;
 	this.color = color;
+	this.dot_type = dot_type;
 	this.value;
 	this.symbol;
 	this.group_name;
@@ -157,7 +158,7 @@ function parseChartData(data){
 		return;
 	}
 	var chart_data = [], series_colors = [], groups_names = [], series_names = [], symbols = [],
-		group, serie = [], serie_symbol = [];
+	dot_types = [], group, serie = [], serie_symbol = [];
 	if(groups.length == 1){
 		group = groups[0];
 		groups_names.push(group.name);
@@ -181,6 +182,7 @@ function parseChartData(data){
 			}
 			series_colors.push(group.series[i].color);
 			series_names.push(group.series[i].name);
+			dot_types.push(group.series[i].dot_type);
 		}
 		if(is_single_serie){
 			chart_data.push(serie);
@@ -231,6 +233,7 @@ function parseChartData(data){
 			symbols.push(serie_symbol);
 			series_colors.push(groups_series[i].color);
 			series_names.push(groups_series[i].name);
+			dot_types.push(groups_series[i].dot_type);
 			serie = [];	
 			serie_symbol = [];
 		}
@@ -241,6 +244,7 @@ function parseChartData(data){
 	data_bundle["groups"] = groups_names;
 	data_bundle["series"] = series_names;
 	data_bundle["symbols"] = symbols;
+	data_bundle["dot_types"] = dot_types;
 	return data_bundle;
 }
 
@@ -420,18 +424,24 @@ function editSerie(table){
 	var row = $('#edit_' + edited_serie.id).parents('tr');
 	if(row.length > 0){
 		var serie_name = $('#serie_name').val(),
-			serie_color = '#' + $('#serie_color').val();
-		var updated_serie = new Serie(edited_serie.id, serie_name, serie_color);
+			serie_color = '#' + $('#serie_color').val(),
+			dot_type = $('#dot_type').val();
+		var updated_serie = new Serie(edited_serie.id, serie_name, serie_color, dot_type);
 		if(!updated_serie.equals(edited_serie) && !updated_serie.validate()){
 			return;
 		}
 		var old_name = edited_serie.name;
-		var old_color = edited_serie.color;
 		edited_serie.name = updated_serie.name;
-		edited_serie.color = updated_serie.color;
+		edited_serie.color = updated_serie.color,
+		edited_serie.dot_type = updated_serie.dot_type;
 		//now we set the visible part
 		row.find('div').css('background-color', edited_serie.color);
-		row.children('td')[0].innerHTML = edited_serie.name;
+		if(dot_type != null){
+			row.children('td')[0].innerHTML = edited_serie.dot_type;
+			row.children('td')[1].innerHTML = edited_serie.name;
+		} else {
+			row.children('td')[0].innerHTML = edited_serie.name;
+		}
 		//update combo
 		removeFromCombo('serie', edited_serie.id);
 		addToCombo('serie', edited_serie.id, edited_serie.name);
@@ -458,9 +468,10 @@ function addSerie(table) {
 	}
 	var serie_name = $('#serie_name').val(),
 		serie_color = '#' + $('#serie_color').val(),
-		serie_id = 'serie_' + Serie.next_id.toString();
+		serie_id = 'serie_' + Serie.next_id.toString(),
+		dot_type = $('#dot_type').val();
 	
-	var serie = new Serie(serie_id, serie_name, serie_color);
+	var serie = new Serie(serie_id, serie_name, serie_color, dot_type);
 	if(!serie.validate()){
 		return;
 	}
@@ -469,6 +480,7 @@ function addSerie(table) {
 	//now we set the visible part
 	var tr = document.createElement('tr'),
 		th = document.createElement('th'),
+		td0 = document.createElement('td'),
 		td1 = document.createElement('td'),
 		td2 = document.createElement('td'),
 		td3 = document.createElement('td'),
@@ -488,6 +500,10 @@ function addSerie(table) {
 	td2.appendChild(img1);
 	td3.appendChild(img2);
 	tr.appendChild(th);
+	if(dot_type != null){
+		td0.appendChild(document.createTextNode(serie.dot_type));
+		tr.appendChild(td0);
+	}
 	tr.appendChild(td1);
 	tr.appendChild(td2);
 	tr.appendChild(td3);
@@ -503,6 +519,9 @@ function addSerie(table) {
 		$('#serie_name').val(edited_serie.name);
 		$('#serie_color').val(edited_serie.color.replace('#',''));
 		$('#serie_color').css('background-color', edited_serie.color);
+		if(dot_type != null){
+			$('#dot_type').val(edited_serie.dot_type);
+		}
 	});
 	$('#serie_name').val('');
 	addToCombo('serie', serie.id, serie.name);

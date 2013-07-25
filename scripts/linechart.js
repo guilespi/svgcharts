@@ -32,7 +32,7 @@
     		use_background_color, scale_intervals, show_groups_labels, show_groups_background, 
     		titles_font, show_legend, rtl, min_scale_value, max_scale_value, scale_auto, 
     		x_axis_on_zero, symbol_position, data){
-		console.log(data);
+
     	var data_bundle = parseChartData(data);
     	if(!data_bundle || data_bundle.data.length == 0){
     		return false;
@@ -42,6 +42,7 @@
     	var groups_names = data_bundle.groups;
     	var series_names = data_bundle.series;
     	var symbols = data_bundle.symbols;
+    	var dot_types = data_bundle.dot_types;
     	
     	var x = 200, y = 50, gutter = 10;
     	width = parseInt(width); 
@@ -100,7 +101,7 @@
 	    var options =  {
 				gutter: gutter,
 			    nostroke: false,
-			    symbol: ["triangle", "rect", "circle"],
+			    symbol: dot_types,
 			    smooth: false,
 			    colors: series_colors
 			};
@@ -368,8 +369,8 @@
 	
     function generateChart(){
     	eval(getConfiguration());
-    	//var data = getChartData();
-    	var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":10,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":40,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":5,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":20,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":50,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":15,"symbol":""}]},{"id":"group_3","name":"g3","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":30,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":25,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":-10,"symbol":""}]}]';
+    	var data = getChartData();
+    	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":10,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":40,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":5,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":20,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":50,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":15,"symbol":""}]},{"id":"group_3","name":"g3","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":30,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":25,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":-10,"symbol":""}]}]';
     	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":123,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":111,"symbol":""}]}]';
     	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#141CFF","value":123,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"s1","color":"#141CFF","value":111,"symbol":""}]},{"id":"group_3","name":"g3","series":[{"id":"serie_1","name":"s1","color":"#141CFF","value":89,"symbol":""}]}]';
     	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":10,"symbol":""},{"id":"serie_2","name":"s2","color":"#4621FF","value":40,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":20,"symbol":""},{"id":"serie_2","name":"s2","color":"#4621FF","value":55,"symbol":""}]},{"id":"group_3","name":"g3","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":30,"symbol":""},{"id":"serie_2","name":"s2","color":"#4621FF","value":29,"symbol":""}]}]';

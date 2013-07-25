@@ -177,7 +177,7 @@
 
                 if(sym == "circle"){
                 	(Raphael.is(sym, "array") ? sym[j] : sym) && symset.push(paper[Raphael.is(sym, "array") ? sym[j] : sym](X, Y, (opts.width || 2) * 3).attr({ fill: colors[i], stroke: "none" }));	
-                } else if(sym == "rect"){
+                } else if(sym == "square"){
                 	paper.rect(X - 3, Y - 3, (opts.width || 2) * 5, (opts.width || 2) * 5).attr({ fill: colors[i], stroke: "none" });
                 } else if(sym == "triangle") {
                     var triangle = "M" + (X-6) + "," + (Y+3) + "L" + (X+6) + "," + (Y+3) + "L" + (X) + "," + (Y+15/-2) + "L" + (X-6) + "," + (Y+3);

@@ -98,7 +98,7 @@
     function saveChart() {
         var svgString = r.toSVG();
         var a = document.createElement('a');
-        a.download = 'barchart.svg';
+        a.download = 'piechart.svg';
         a.type = 'image/svg+xml';
 
         var blob = new Blob([svgString], {type: 'image/svg+xml'});
