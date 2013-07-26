@@ -1,5 +1,5 @@
 /*!
- * g.Raphael 0.51 - Charting library, based on Raphaël
+ * g.Raphael 0.51 - Charting library, based on Rapha��l
  *
  * Copyright (c) 2009-2012 Dmitry Baranovskiy (http://g.raphaeljs.com)
  * Licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) license.
@@ -155,9 +155,9 @@
         				str_value = opts.symbols[i].length > 0 ? str_value + ' ' + opts.symbols[i] : str_value;
         			}
                 	if(opts.chart_labels_position == 'top'){
-                		paper.text(path.out.x, path.out.y, str_value).attr("text-anchor", "middle").attr("font-size", 18);		
+                		paper.text(path.out.x, path.out.y, str_value).attr("text-anchor", "middle").attr("font-size", 18).attr({ fill: opts.chart_labels_color });;		
                 	} else if(opts.chart_labels_position == 'inside'){
-                		paper.text(path.middle.x, path.middle.y , str_value).attr("text-anchor", "middle").attr("font-size", 18);		
+                		paper.text(path.middle.x, path.middle.y , str_value).attr("text-anchor", "middle").attr("font-size", 18).attr({ fill: opts.chart_labels_color });;		
                 	}
                 }
             }
