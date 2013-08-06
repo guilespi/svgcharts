@@ -155,9 +155,9 @@
         				str_value = opts.symbols[i].length > 0 ? str_value + ' ' + opts.symbols[i] : str_value;
         			}
                 	if(opts.chart_labels_position == 'top'){
-                		paper.text(path.out.x, path.out.y, str_value).attr("text-anchor", "middle").attr("font-size", 18).attr({ fill: opts.chart_labels_color });;		
+                		paper.text(path.out.x, path.out.y, str_value).attr("text-anchor", "middle").attr("font-size", 18).attr({ fill: opts.chart_labels_color });		
                 	} else if(opts.chart_labels_position == 'inside'){
-                		paper.text(path.middle.x, path.middle.y , str_value).attr("text-anchor", "middle").attr("font-size", 18).attr({ fill: opts.chart_labels_color });;		
+                		paper.text(path.middle.x, path.middle.y , str_value).attr("text-anchor", "middle").attr("font-size", 18).attr({ fill: opts.chart_labels_color });
                 	}
                 }
             }

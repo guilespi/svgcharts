@@ -45,22 +45,8 @@
 
 	    r.pie(x + 290, y + 80, radio, 60, chart_data, 
 	    	    {colors: series_colors, size3d: 30, exploded: exploded, tooltip: false, show3d: true,
-    	    	 labels: series_names});
-	    /*
-        r.piechart(x, y, radio, 
-        		chart_data, 
-        		{legend:series_names, 
-        		 colors:series_colors, 
-        		 stroke: (stroke == true ? "#000000" : "#fff"),
-        		 symbol_position:symbol_position,
-        		 show_chart_labels:show_chart_labels,
-        		 chart_labels_position:chart_labels_position,
-        		 chart_labels_color:chart_labels_color,
-        		 show_legend:show_legend,
-        		 exploded:exploded,
-        		 symbols:symbols
-        		});
-        */
+    	    	 labels: series_names, chart_labels_color: chart_labels_color, 
+    	    	 show_chart_labels:show_chart_labels, chart_labels_position: chart_labels_position});
         //set chart title
         setChartTitle(x, radio, chart_title, titles_font);
         //set chart label
@@ -103,7 +89,7 @@
     function saveChart() {
         var svgString = r.toSVG();
         var a = document.createElement('a');
-        a.download = 'piechart.svg';
+        a.download = 'piechart3d.svg';
         a.type = 'image/svg+xml';
 
         var blob = new Blob([svgString], {type: 'image/svg+xml'});

@@ -120,7 +120,7 @@
 
     function generateChart(){
     	eval(getConfiguration());
-    	var data = getChartData(); 
+    	var data = getChartData();
         if(drawPieChart(chart_title, chart_label, height, width, 
         		chart_labels_position, chart_labels_color, show_chart_labels, 
         		titles_font, show_legend, rtl, symbol_position, stroke, exploded, radio, data)){

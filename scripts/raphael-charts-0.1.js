@@ -7,6 +7,12 @@
 
 (function() {
 
+	function Label(x, y, value){
+		this.x = x;
+		this.y = y;
+		this.value = value;
+	}
+	
 	Raphael.fn.pie = function(canvasWidth, canvasHeight, R1, R2, values, options) {
 		var paper = this;	
 		options = options || {};
@@ -28,8 +34,11 @@
 			tooltip : options.tooltip || false,
 			labels : options.labels || [],
 			backgroundFill : options.backgroundFill || [ "#fff", "#fff" ],
-			exploded : options.exploded
-		};
+			exploded : options.exploded,
+			chart_labels_color : options.chart_labels_color,
+			show_chart_labels: options.show_chart_labels,
+			chart_labels_position: options.chart_labels_position
+		};		
 		var slices = [];
 
 		function slice() {
@@ -83,7 +92,8 @@
 				s.border = createPart(p, borderParams);
 			}					
 			slices[0] = s;
-		} else {				
+		} else {
+			var labels = new Array();			
 			for ( var i = 0; i < o.numberOfValues; i++) {
 				s = new slice();
 				
@@ -108,6 +118,21 @@
 				y4 = o.cy + (o.R2 / explodeFactor) * Math.sin(alphaM * rad);				
 				xm = o.cx + o.R1 * Math.cos(alphaM * rad);
 				ym = o.cy + o.R2 * Math.sin(alphaM * rad);
+					
+				//store the labels to be shown later
+				if(o.show_chart_labels){
+					var x_label, y_label, position_factor;
+					if(o.exploded){
+						position_factor = o.chart_labels_position == 'top' ? 1.5 : 1;
+						x_label = o.cx + o.R1 * Math.cos(alphaM * rad) * position_factor;
+						y_label = o.cy + o.R2 * Math.sin(alphaM * rad) * position_factor;
+					} else {
+						position_factor = o.chart_labels_position == 'top' ? 5 : 2;
+						x_label = o.cx + (o.R1 / explodeFactor) * Math.cos(alphaM * rad) * position_factor;
+						y_label = o.cy + (o.R2 / explodeFactor) * Math.sin(alphaM * rad) * position_factor;
+					}
+					labels.push(new Label(x_label, y_label, values[i]));
+				}
 				
 				s.tx = x4;
 				s.ty = y4;
@@ -162,6 +187,17 @@
 			drawSlicePart(sPart, "side1");
 			drawSlicePart(bPart, "border");
 			drawSlicePart(topPart, "top");
+			//show the labels
+			if(labels != null){
+				for(var i=0; i<labels.length; i++){
+					paper.text(labels[i].x, labels[i].y, labels[i].value)
+					.attr("text-anchor", "middle")
+					.attr("font-size", 18).attr({ fill: o.chart_labels_color });	
+				}
+			}
+			paper.text(o.cx + R1 * 2, o.cy, "serie 1")
+			.attr("text-anchor", "middle")
+			.attr("font-size", 18).attr({ fill: o.chart_labels_color });			
 		}						
 						
 		function drawSlicePart(slicePart, side) {
@@ -244,7 +280,7 @@
 			for ( var i = 0; i < o.numberOfValues; i++) {
 				slices[i].top.num = i;
 
-				showTooltip(slices[i].top.num, true);
+				//showTooltip(slices[i].top.num, true);
 				highlightOn(slices[slices[i].top.num]);
 				animateSliceOut(slices[slices[i].top.num]);
 			}

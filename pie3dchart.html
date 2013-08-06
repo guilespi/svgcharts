@@ -78,8 +78,8 @@
 							<input type="text" id="chart_label" name="chart_label" value="Tonnage (in millions)"/>
 						</td>
 						<th>
-							<label for="stroke">Pie Stroke</label>
-							<input type="checkbox" id="stroke" />
+							<label for="exploded">Exploded</label>
+							<input type="checkbox" id="exploded" />
 						</th>
 						<th colspan="2">
 							<label for="rtl">RTL</label>
@@ -94,12 +94,11 @@
 							<input id="titles_font" type="text" value="Arial">
 						</td>
 						<th>
-							<label for="exploded">Exploded</label>
-							<input type="checkbox" id="exploded" />
+							<label for="chart_labels_color">Labels Color</label>
 						</th>
-						<th>
-
-						</th>
+						<td>
+							<input id="chart_labels_color" class="color" type="text" value="000000">
+						</td>
 					</tr>
 					<tr>
 						<th>
@@ -111,12 +110,8 @@
 								<option value="inside">Inside</option>
 							</select>
 						</td>
-						<th>
-							<label for="chart_labels_color">Labels Color</label>
+						<th colspan="2">
 						</th>
-						<td>
-							<input id="chart_labels_color" class="color" type="text" value="000000">
-						</td>
 					</tr>
 					<tr>
 						<th>
@@ -128,12 +123,8 @@
 								<option value="postfix">Postfix</option>
 							</select>
 						</td>
-						<th>
-							<label for="radio">Radio</label>
+						<th colspan="2">
 						</th>
-						<td>
-							<input id="radio" type="number" value="100">
-						</td>
 					</tr>
 				</tbody>
 			</table>
