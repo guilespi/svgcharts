@@ -37,7 +37,11 @@
 			exploded : options.exploded,
 			chart_labels_color : options.chart_labels_color,
 			show_chart_labels: options.show_chart_labels,
-			chart_labels_position: options.chart_labels_position
+			chart_labels_position: options.chart_labels_position,
+			series_names: options.series_names,
+			series_colors: options.series_colors,
+			symbols: options.symbols,
+			symbol_position: options.symbol_position
 		};		
 		var slices = [];
 
@@ -188,18 +192,38 @@
 			drawSlicePart(bPart, "border");
 			drawSlicePart(topPart, "top");
 			//show the labels
-			if(labels != null){
+			if(labels != null){				
 				for(var i=0; i<labels.length; i++){
-					paper.text(labels[i].x, labels[i].y, labels[i].value)
+    				var str_value = addCommasToNumber(labels[i].value);
+        			if(o.symbol_position == 'prefix'){
+        				str_value = o.symbols[i].length > 0 ? o.symbols[i] + ' ' + str_value : str_value;
+        			} else {
+        				str_value = o.symbols[i].length > 0 ? str_value + ' ' + o.symbols[i] : str_value;
+        			}
+					paper.text(labels[i].x, labels[i].y, str_value)
 					.attr("text-anchor", "middle")
 					.attr("font-size", 18).attr({ fill: o.chart_labels_color });	
 				}
 			}
-			paper.text(o.cx + R1 * 2, o.cy, "serie 1")
-			.attr("text-anchor", "middle")
-			.attr("font-size", 18).attr({ fill: o.chart_labels_color });			
-		}						
-						
+			showLegend(paper, o.cx, o.cy, R1, o.series_names, o.series_colors)
+		}				
+		
+		function showLegend(paper, x, y, R, series_names, series_colors){
+			x = x + R1 * 1.7;
+			y = y - R1/2;
+			
+			var txt;
+			for(var i=0; i < series_names.length; i++){
+		        paper.circle(x, y, 5).attr({ fill: series_colors[i], stroke: "none" });
+		        txt = paper.text(x + 20, y, series_names[i])
+		        .attr({ fill: "#000000" })
+		        .attr("font-size", 18)
+		        .attr("text-anchor", "start");
+		        
+		        y += txt.getBBox().height * 2;
+			}
+		}
+		
 		function drawSlicePart(slicePart, side) {
 			for ( var i = slicePart.paths.length - 1; i >= 0; i--) {													
 				s = slices[slicePart.indexes[i]];

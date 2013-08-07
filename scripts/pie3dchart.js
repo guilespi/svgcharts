@@ -21,7 +21,7 @@
     function drawPieChart(chart_title, chart_label, height, width, 
     		chart_labels_position, chart_labels_color, show_chart_labels, 
     		titles_font, show_legend, rtl, symbol_position, stroke, exploded, radio, data) {
-    	console.log(data);
+    	
     	var data_bundle = parseChartData(data);
     	if(!data_bundle || data_bundle.data.length == 0){
     		return false;
@@ -46,7 +46,9 @@
 	    r.pie(x + 290, y + 80, radio, 60, chart_data, 
 	    	    {colors: series_colors, size3d: 30, exploded: exploded, tooltip: false, show3d: true,
     	    	 labels: series_names, chart_labels_color: chart_labels_color, 
-    	    	 show_chart_labels:show_chart_labels, chart_labels_position: chart_labels_position});
+    	    	 show_chart_labels:show_chart_labels, chart_labels_position: chart_labels_position,
+    	    	 series_names: series_names, series_colors: series_colors, symbols: symbols,
+    	    	 symbol_position: symbol_position});
         //set chart title
         setChartTitle(x, radio, chart_title, titles_font);
         //set chart label
@@ -111,8 +113,7 @@
 
     function generateChart(){
     	eval(getConfiguration());
-    	//var data = getChartData();
-    	var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":123,"symbol":""},{"id":"serie_2","name":"s2","color":"#4B1FFF","value":222,"symbol":""},{"id":"serie_3","name":"s3","color":"#3CBA51","value":444,"symbol":""}]}]';
+    	var data = getChartData();
         if(drawPieChart(chart_title, chart_label, height, width, 
         		chart_labels_position, chart_labels_color, show_chart_labels, 
         		titles_font, show_legend, rtl, symbol_position, stroke, exploded, radio, data)){
