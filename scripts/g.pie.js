@@ -149,7 +149,7 @@
                 
                 if(opts.show_chart_labels){
     				var str_value = addCommasToNumber(values[i].value);
-        			if(symbol_position == 'prefix'){
+        			if(opts.symbol_position == 'prefix'){
         				str_value = opts.symbols[i].length > 0 ? opts.symbols[i] + ' ' + str_value : str_value;
         			} else {
         				str_value = opts.symbols[i].length > 0 ? str_value + ' ' + opts.symbols[i] : str_value;
