@@ -21,7 +21,7 @@
     function drawPieChart(chart_title, chart_label, height, width, 
     		chart_labels_position, chart_labels_color, show_chart_labels, 
     		titles_font, show_legend, rtl, symbol_position, stroke, exploded, radio, data) {
-    	
+
     	var data_bundle = parseChartData(data);
     	if(!data_bundle || data_bundle.data.length == 0){
     		return false;
@@ -49,7 +49,7 @@
     	    	 labels: series_names, chart_labels_color: chart_labels_color, 
     	    	 show_chart_labels:show_chart_labels, chart_labels_position: chart_labels_position,
     	    	 series_names: series_names, series_colors: series_colors, symbols: symbols,
-    	    	 symbol_position: symbol_position});
+    	    	 symbol_position: symbol_position, stroke: (stroke == true ? "#000000" : "none")});
         //set chart title
         setChartTitle(x, radio, chart_title, titles_font);
         //set chart label

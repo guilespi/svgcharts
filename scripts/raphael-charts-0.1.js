@@ -41,7 +41,8 @@
 			series_names: options.series_names,
 			series_colors: options.series_colors,
 			symbols: options.symbols,
-			symbol_position: options.symbol_position
+			symbol_position: options.symbol_position,
+			stroke: options.stroke
 		};		
 		var slices = [];
 
@@ -101,9 +102,9 @@
 			for ( var i = 0; i < o.numberOfValues; i++) {
 				s = new slice();
 				
-				sideParams = {stroke : "none", fill : o.darkColors[i]};
+				sideParams = {stroke : o.stroke, fill : o.darkColors[i]};
 				//borderParams = {stroke : "none", gradient : "90-" + o.darkColors[i] + "-" + o.colors[i]};
-				borderParams = {stroke : "none", fill : o.darkColors[i]};//gradient : "90-" + o.darkColors[i] + "-" + o.colors[i]};
+				borderParams = {stroke : o.stroke, fill : o.darkColors[i]};//gradient : "90-" + o.darkColors[i] + "-" + o.colors[i]};
 				topParams = {stroke : "#ccc", fill : o.colors[i]};//, gradient : "180-" + o.darkColors[i] + "-" + o.lightColors[i]}; //fill : o.colors[i] 
 	
 				var endX = x;
