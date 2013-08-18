@@ -272,7 +272,7 @@ function getConfiguration(){
 	'chart_label ="' +  $("#chart_label").val() + '",' +
 	'height =' +  $("#height").val() + ',' +
 	'width =' +  $("#width").val() + ',' +
-	'radio = 100,' +
+	'radio =' +  ($("#radio").val() || 100) + ',' +
 	'min_scale_value =' +  $("#min_scale_value").val() + ',' +
 	'max_scale_value =' +  $("#max_scale_value").val() + ',' +
 	'scale_auto =' +  $("#scale_auto").is(':checked') + ',' +

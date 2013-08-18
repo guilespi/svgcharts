@@ -32,7 +32,8 @@
     	var series_names = data_bundle.series;
     	var symbols = data_bundle.symbols;
 
-    	var x = radio * 2.8, y = radio * 1.7;
+    	var x = radio * (3.8 - (radio/100)), y = radio * 1.7;
+
     	width = parseInt(width); 
     	height = parseInt(height);
     	
@@ -43,7 +44,7 @@
 		r = Raphael('chart');
 		setPaperAttributes(x, y, radio, rtl);
 
-	    r.pie(x + 290, y + 80, radio, 60, chart_data, 
+	    r.pie(x + 290, y + 80, radio, radio * 0.6, chart_data, 
 	    	    {colors: series_colors, size3d: 30, exploded: exploded, tooltip: false, show3d: true,
     	    	 labels: series_names, chart_labels_color: chart_labels_color, 
     	    	 show_chart_labels:show_chart_labels, chart_labels_position: chart_labels_position,

@@ -102,7 +102,8 @@
 				s = new slice();
 				
 				sideParams = {stroke : "none", fill : o.darkColors[i]};
-				borderParams = {stroke : "none", fill : o.colors[i]};//gradient : "90-" + o.darkColors[i] + "-" + o.colors[i]};
+				//borderParams = {stroke : "none", gradient : "90-" + o.darkColors[i] + "-" + o.colors[i]};
+				borderParams = {stroke : "none", fill : o.darkColors[i]};//gradient : "90-" + o.darkColors[i] + "-" + o.colors[i]};
 				topParams = {stroke : "#ccc", fill : o.colors[i]};//, gradient : "180-" + o.darkColors[i] + "-" + o.lightColors[i]}; //fill : o.colors[i] 
 	
 				var endX = x;
