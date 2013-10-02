@@ -612,7 +612,7 @@
     });
 
     function generateChart(){
-    	eval(getConfiguration());
+    	evalConfiguration();
     	var data = getChartData();
         if(drawBarChart(chart_title, chart_label, height, width, orientation, grid_lines_color,
         		chart_labels_position, chart_labels_color, background_color, label_background_color, 

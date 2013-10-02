@@ -268,37 +268,83 @@ function getChartData(){
 }
 
 function getConfiguration(){
-    return 'var chart_title ="' + $("#chart_title").val() + '",' +
-	'chart_label ="' +  $("#chart_label").val() + '",' +
-	'height =' +  $("#height").val() + ',' +
-	'width =' +  $("#width").val() + ',' +
-	'radio =' +  ($("#radio").val() || 100) + ',' +
-	'min_scale_value =' +  $("#min_scale_value").val() + ',' +
-	'max_scale_value =' +  $("#max_scale_value").val() + ',' +
-	'scale_auto =' +  $("#scale_auto").is(':checked') + ',' +
-	'stroke =' +  $("#stroke").is(':checked') + ',' +
-	'exploded =' +  $("#exploded").is(':checked') + ',' +
-	'x_axis_on_zero =' +  $("#x_axis_on_zero").is(':checked') + ',' +
-	'symbol_position ="' +  $("#symbol_position").val() + '",' +
-	'orientation ="' +  $("#orientation").val() + '",' +
-	'titles_font ="' +  $("#titles_font").val() + '",' +
-	'scale_intervals =' +  $("#scale_intervals").val() + ',' +
-	'show_groups_labels =' +  $("#show_groups_labels").is(':checked') + ',' +
-	'show_groups_background =' +  $("#show_groups_background").is(':checked') + ',' +
-	'chart_labels_position ="' +  $("#chart_labels_position").val() + '",' +
-	'chart_labels_color ="' +  '#' + $("#chart_labels_color").val() + '",' +
-	'grid_lines_color ="' +  '#' + $("#grid_lines_color").val() + '",' +
-	'background_color ="' +  '#' + $("#background_color").val() + '",' +
-	'label_background_color ="' +  '#' + $("#label_background_color").val() + '",' +
-	'label_text_color ="' +  '#' + $("#label_text_color").val() + '",' +
-	'fit_scale =' +  $("#fit_scale").is(':checked') + ',' +
-	'show_scale =' +  $("#show_scale").is(':checked') + ',' +
-	'show_axis =' +  $("#show_axis").is(':checked') + ',' +
-	'show_gridlines =' +  $("#show_gridlines").is(':checked') + ',' +
-	'show_chart_labels =' +  $("#show_chart_labels").is(':checked') + ',' +
-	'show_legend =' +  $("#show_legend").is(':checked') + ',' +
-	'rtl =' +  $("#rtl").is(':checked') + ',' +
-	'use_background_color =' +  $("#use_background_color").is(':checked') + ';';
+    var config = {
+        chart_title: $("#chart_title").val(),
+	chart_label: $("#chart_label").val(),
+	height: $("#height").val(),
+        width: $("#width").val(),
+	radio: ($("#radio").val() || 100),
+	min_scale_value: $("#min_scale_value").val(),
+	max_scale_value: $("#max_scale_value").val(),
+	scale_auto: $("#scale_auto").is(':checked'),
+	stroke: $("#stroke").is(':checked'),
+	exploded: $("#exploded").is(':checked'),
+	x_axis_on_zero: $("#x_axis_on_zero").is(':checked'),
+        symbol_position: $("#symbol_position").val(),
+	orientation: $("#orientation").val(),
+	titles_font: $("#titles_font").val(),
+	scale_intervals: $("#scale_intervals").val(),
+	show_groups_labels: $("#show_groups_labels").is(':checked'),
+	show_groups_background: $("#show_groups_background").is(':checked'),
+	chart_labels_position: $("#chart_labels_position").val(),
+	chart_labels_color: '#' + $("#chart_labels_color").val(),
+	grid_lines_color: '#' + $("#grid_lines_color").val(),
+	background_color: '#' + $("#background_color").val(),
+	label_background_color: '#' + $("#label_background_color").val(),
+	label_text_color: '#' + $("#label_text_color").val(),
+	fit_scale: $("#fit_scale").is(':checked'),
+	show_scale: $("#show_scale").is(':checked'),
+	show_axis: $("#show_axis").is(':checked'),
+	show_gridlines: $("#show_gridlines").is(':checked'),
+	show_chart_labels: $("#show_chart_labels").is(':checked'),
+	show_legend: $("#show_legend").is(':checked'),
+	rtl: $("#rtl").is(':checked'),
+	use_background_color: $("#use_background_color").is(':checked')
+    };
+    return config;
+}
+
+function loadConfiguration(config) {
+    $("#chart_title").val(config.chart_title);
+    $("#chart_label").val(config.chart_label);
+    $("#height").val(config.height);
+    $("#width").val(config.width);
+    $("#radio").val(config.radio);
+    $("#min_scale_value").val(config.min_scale_value);
+    $("#max_scale_value").val(config.max_scale_value);
+    $("#scale_auto").attr("checked", config.scale_auto);
+    $("#stroke").attr("checked", config.stroke);
+    $("#exploded").attr("checked", config.exploded);
+    $("#x_axis_on_zero").attr("checked", config.x_axis_on_zero);
+    $("#symbol_position").val(config.symbol_position);
+    $("#orientation").val(config.orientation);
+    $("#titles_font").val(config.titles_font);
+    $("#scale_intervals").val(config.scale_intervals);
+    $("#show_groups_labels").attr('checked', config.show_groups_labels);
+    $("#show_groups_background").attr('checked', config.show_groups_background),
+    $("#chart_labels_position").val(config.chart_labels_position);
+    $("#chart_labels_color").val(config.chart_labels_color.substr(1));
+    $("#grid_lines_color").val(config.grid_lines_color.substr(1));
+    $("#background_color").val(config.background_color.substr(1));
+    $("#label_background_color").val(config.label_background_color.substr(1));
+    $("#label_text_color").val(config.label_text_color.substr(1));
+    $("#fit_scale").attr('checked', config.fit_scale);
+    $("#show_scale").attr('checked', config.show_scale);
+    $("#show_axis").attr('checked', config.show_axis);
+    $("#show_gridlines").attr('checked', config.show_gridlines);
+    $("#show_chart_labels").attr('checked', config.show_chart_labels);
+    $("#show_legend").attr('checked', config.show_legend);
+    $("#rtl").attr('checked', config.rtl);
+    $("#use_background_color").attr('checked', config.use_background_color)
+}
+
+function evalConfiguration(){
+    var config = getConfiguration();
+    for (var name in config) {
+        if (config.hasOwnProperty(name)) {
+            window[name] = config[name];
+        }
+    }
 }
 
 function roundUp(number, fit){
