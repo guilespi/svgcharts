@@ -413,17 +413,17 @@ function editGroup(table){
 		$('#group_name').val('');
 	} else { 						//if select edit and then delete the row
 		edited_group = null;
-		addGroup(table);
+	    addGroup(table, $('#group_name').val());
 	}
 }
 
-function addGroup(table) {
+function addGroup(table, groupName) {
 	if(edited_group){
 		editGroup(table);
 		return;
 	}
-	var group_name = $('#group_name').val(),
-		group_id = 'group_' + Group.next_id.toString();
+        var group_name = groupName,
+        group_id = 'group_' + Group.next_id.toString();
 
 	var group = new Group(group_id, group_name);
 	if(!group.validate()){
@@ -503,19 +503,23 @@ function editSerie(table){
 		$('#serie_name').val('');
 	} else { 						//if select edit and then delete the row
 		edited_serie = null;
-		addSerie(table);
+	    addSerie(table, 
+                     $('#serie_name').val(),
+                     "#" + $('#serie_color').val(),
+                     $("#dot_type").val());
 	}
 }
 
-function addSerie(table) {
+function addSerie(table, serieName, serieColor, serieDotType) {
 	if(edited_serie){
 		editSerie(table);
 		return;
 	}
-	var serie_name = $('#serie_name').val(),
-		serie_color = '#' + $('#serie_color').val(),
-		serie_id = 'serie_' + Serie.next_id.toString(),
-		dot_type = $('#dot_type').val();
+	var serie_name = serieName,
+        serie_color = serieColor,
+        dot_type = serieDotType,
+        serie_id = 'serie_' + Serie.next_id.toString();
+		
 	
 	var serie = new Serie(serie_id, serie_name, serie_color, dot_type);
 	if(!serie.validate()){
@@ -594,18 +598,21 @@ function editValue(table){
 		$('#value_data').val('');
 	} else { 						//if select edit and then delete the row
 		edited_value = null;
-		addValue(table);
+	    addValue(table, 
+                     $('#group').val(),
+                     $('#serie').val(),
+                     $('#value_data').val());
 	}
 }
 
-function addValue(table) {
+function addValue(table, groupName, serieName, inputValue) {
 	if(edited_value){
 		editValue(table);
 		return;
 	}
-	var group = groups.get($('#group').val()),
-		serie = series.get($('#serie').val()),
-		value = $('#value_data').val(),
+	var group = groups.get(groupName),
+		serie = series.get(serieName),
+		value = inputValue,
 		data_id = 'value_' + Data.next_id.toString();
 
 	var d = new Data(data_id, group, serie, value);
@@ -711,9 +718,73 @@ function enableButton(button_id){
     $('#'+button_id).removeClass("disabled_button");    	
 }
 
+function findByName(list, name) {
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].name == name) {
+            return list[i];
+        }
+    }
+}
+
 $(document).ready(function() {
     $(".popup").hide();
     disableButton('save_chart');
+
+    //dummy button just to hide ugly file selection control
+    $('#open_data').click(function() {
+        $("#data_file").click();
+    });
+    //when a file is selected trigger read and reload
+    $('#data_file').change(function(e) {
+        Filesystem.loadData(e.target.files[0], function(fileContent) {
+            try {
+                var chartObject = JSON.parse(fileContent);
+                if (!chartObject.config || !chartObject.data) {
+                    throw("error");
+                }
+                edited_group = edited_serie = edited_value = undefined;
+                groups = [], series = [], data = [];
+                //load groups
+                Group.next_id = 1;
+                var groupTable = $('#add_group').parents('table');
+                for (var i = 0; i < chartObject.groups.length; i++) {
+                    var g = chartObject.groups[i];
+                    addGroup(groupTable, g.name);
+                }
+                //load series
+                Serie.next_id = 1;
+                var seriesTable = $('#add_serie').parents('table');
+                for (var i = 0; i < chartObject.series.length; i++) {
+                    var s = chartObject.series[i];
+                    addSerie(seriesTable, s.name, s.color, s.dot_type);
+                }
+                //load values
+                Data.next_id = 1;
+                var dataTable = $('#add_value').parents('table');
+                for (var i = 0; i < chartObject.data.length; i++) {
+                    var dataPoint = chartObject.data[i];
+                    var groupId = findByName(groups, dataPoint.group.name).id;
+                    var serieId = findByName(series, dataPoint.serie.name).id;
+                    addValue(dataTable, groupId, serieId, dataPoint.value);
+                }
+                //load configuration
+                loadConfiguration(chartObject.config);
+
+            } catch(e) {
+                alert('Selected file is not a valid chart');
+            }
+        });
+    });
+    $("#save_data").click(function() {
+        var config = getConfiguration();
+        var bundle = {
+            config : config,
+            data : data,
+            groups : groups,
+            series : series
+        };
+        Filesystem.saveData(bundle);
+    });
     
     $('#config').click(function(e){
 	popup('config_chart_container', e);
@@ -730,13 +801,19 @@ $(document).ready(function() {
 	popup('data_chart_container', e);
     });
     $('#add_group').click(function(){
-	addGroup($(this).parents('table'));
+	addGroup($(this).parents('table'), $('#group_name').val());
     });
     $('#add_serie').click(function(){
-	addSerie($(this).parents('table'));
+	addSerie($(this).parents('table'), 
+                 $('#serie_name').val(),
+                 "#" + $('#serie_color').val(),
+                 $("#dot_type").val());
     });
     $('#add_value').click(function(){
-	addValue($(this).parents('table'));
+	addValue($(this).parents('table'), 
+                     $('#group').val(),
+                     $('#serie').val(),
+                     $('#value_data').val());
     });
     BrowserDetect.init();
 });
