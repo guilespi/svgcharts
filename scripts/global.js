@@ -715,30 +715,30 @@ $(document).ready(function() {
     $(".popup").hide();
     disableButton('save_chart');
     
-	$('#config').click(function(e){
-		popup('config_chart_container', e);
-	});
-	$('#close_config').click(function(e){
-		if(validateSettings()){
-			popup('config_chart_container', e);	
-		}
-	});
-	$('#chart_data').click(function(e){
-		popup('data_chart_container', e);
-	});
-	$('#close_data').click(function(e){
-		popup('data_chart_container', e);
-	});
-	$('#add_group').click(function(){
-		addGroup($(this).parents('table'));
-	});
-	$('#add_serie').click(function(){
-		addSerie($(this).parents('table'));
-	});
-	$('#add_value').click(function(){
-		addValue($(this).parents('table'));
-	});
-	BrowserDetect.init();
+    $('#config').click(function(e){
+	popup('config_chart_container', e);
+    });
+    $('#close_config').click(function(e){
+	if(validateSettings()){
+	    popup('config_chart_container', e);	
+	}
+    });
+    $('#chart_data').click(function(e){
+	popup('data_chart_container', e);
+    });
+    $('#close_data').click(function(e){
+	popup('data_chart_container', e);
+    });
+    $('#add_group').click(function(){
+	addGroup($(this).parents('table'));
+    });
+    $('#add_serie').click(function(){
+	addSerie($(this).parents('table'));
+    });
+    $('#add_value').click(function(){
+	addValue($(this).parents('table'));
+    });
+    BrowserDetect.init();
 });
 
 var BrowserDetect = {
