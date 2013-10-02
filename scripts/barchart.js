@@ -588,26 +588,12 @@
     	}
     }
     
-    function saveChart() {
-        var svgString = r.toSVG();
-        var a = document.createElement('a');
-        a.download = 'barchart.svg';
-        a.type = 'image/svg+xml';
-
-        var blob = new Blob([svgString], {type: 'image/svg+xml'});
-
-        a.href = (window.URL || webkitURL).createObjectURL(blob);
-        if($.browser.mozilla){
-        	document.location = a.href;
-        } else {
-        	a.click();
-        }
-    };
-    
     $(document).ready(function() {
-        $("#save_chart").click(saveChart);
+        $("#save_chart").click(function() {
+            Filesystem.saveChart(r, "barchart", "svg");
+        });
         $("#generate_chart").click(function() {
-        	generateChart();
+            generateChart();
         });
     });
 

@@ -343,29 +343,15 @@
     	}
     }
     
-    function saveChart() {
-        var svgString = r.toSVG();
-        var a = document.createElement('a');
-        a.download = 'linechart.svg';
-        a.type = 'image/svg+xml';
-
-        var blob = new Blob([svgString], {type: 'image/svg+xml'});
-
-        a.href = (window.URL || webkitURL).createObjectURL(blob);
-        if($.browser.mozilla){
-        	document.location = a.href;
-        } else {
-        	a.click();
-        }
-    };
-
-	$(document).ready(function(){
-		$('#orientation').attr('disabled', true);
-        $("#save_chart").click(saveChart);
-        $("#generate_chart").click(function() {
-        	generateChart();
+    $(document).ready(function(){
+	$('#orientation').attr('disabled', true);
+        $("#save_chart").click(function() {
+            Filesystem.saveChart(r, "linechart", "svg");
         });
-	});
+        $("#generate_chart").click(function() {
+            generateChart();
+        });
+    });
 	
     function generateChart(){
     	evalConfiguration();
