@@ -17,15 +17,37 @@ if (typeof Filesystem !== 'object') {
         }
     };
     
+    function loadXMLString(txt) {
+        if (window.DOMParser) {
+            parser=new DOMParser();
+            xmlDoc=parser.parseFromString(txt,"text/xml");
+        }
+        else {
+            xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+            xmlDoc.async=false;
+            xmlDoc.loadXML(txt); 
+        }
+        return xmlDoc;
+    }
+
+    function applyXSL(xml, xsl) {
+        if (window.ActiveXObject) {
+            return xml.transformNode(xsl);
+        } else if (document.implementation && document.implementation.createDocument) {
+            var xsltProcessor=new XSLTProcessor();
+            xsltProcessor.importStylesheet(xsl);
+            resultDocument = xsltProcessor.transformToFragment(xml,document);
+            return resultDocument
+        }
+    };
+
     function saveChart(r, fileName, format) {
         var svgString = r.toSVG();
         if (format === "fxg") {
-            $.ajax({ url: "svg2fxg.xsl", 
-                     success: function(response, status, xhr) {
-                         alert(response);
-                     },
-                     dataType: "jsonp"
-                   });
+            var xslStr = $("#svg2fxg").contents().find("body").text();
+            var xsl = loadXMLString(xslStr);
+            var svg = loadXMLString(svgString);
+            var fxgStr = applyXSL(svg, xsl);
         }
         else {
             saveContent(svgString, fileName, "svg", 'image/svg+xml');
