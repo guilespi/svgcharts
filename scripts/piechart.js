@@ -21,7 +21,6 @@
     function drawPieChart(chart_title, chart_label, height, width, 
     		chart_labels_position, chart_labels_color, show_chart_labels, 
     		titles_font, show_legend, rtl, symbol_position, stroke, exploded, radio, data) {
-
     	var data_bundle = parseChartData(data);
     	if(!data_bundle || data_bundle.data.length == 0){
     		return false;
