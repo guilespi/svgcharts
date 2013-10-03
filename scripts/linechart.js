@@ -343,32 +343,18 @@
     	}
     }
     
-    function saveChart() {
-        var svgString = r.toSVG();
-        var a = document.createElement('a');
-        a.download = 'linechart.svg';
-        a.type = 'image/svg+xml';
-
-        var blob = new Blob([svgString], {type: 'image/svg+xml'});
-
-        a.href = (window.URL || webkitURL).createObjectURL(blob);
-        if($.browser.mozilla){
-        	document.location = a.href;
-        } else {
-        	a.click();
-        }
-    };
-
-	$(document).ready(function(){
-		$('#orientation').attr('disabled', true);
-        $("#save_chart").click(saveChart);
-        $("#generate_chart").click(function() {
-        	generateChart();
+    $(document).ready(function(){
+	$('#orientation').attr('disabled', true);
+        $("#save_chart").click(function() {
+            Filesystem.saveChart(r, "linechart", "svg");
         });
-	});
+        $("#generate_chart").click(function() {
+            generateChart();
+        });
+    });
 	
     function generateChart(){
-    	eval(getConfiguration());
+    	evalConfiguration();
     	var data = getChartData();
     	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":10,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":40,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":5,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":20,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":50,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":15,"symbol":""}]},{"id":"group_3","name":"g3","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":30,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":25,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":-10,"symbol":""}]}]';
     	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":123,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":111,"symbol":""}]}]';

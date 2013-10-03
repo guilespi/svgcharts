@@ -13,6 +13,8 @@
     <script type="text/javascript" src="scripts/jscolor/jscolor.js"></script>
     <script type="text/javascript" src="scripts/global.js"></script>
     <script type="text/javascript" src="scripts/barchart.js"></script>
+    <script type="text/javascript" src="scripts/filesystem.js"></script>
+
 </head>
 
 <body>
@@ -26,6 +28,12 @@
 					<td>
 						<input class="button" type="button" id="chart_data" name="chart_data" value="Chart Data"/>
 					</td>
+                                        <td>
+                                          <input class="button" type="button" id="open_data" name="open_data" value="Open Data"/>
+                                          <div style='height:0px;width:0px; overflow:hidden;'>
+                                            <input id="data_file" type="file" value="open data"/>
+                                          </div>
+					</td>                                     
 				</tr>
 				<tr>
 					<td>
@@ -33,6 +41,9 @@
 					</td>
 					<td>
 						<input class="button special_button" type="button" id="save_chart" name="save_chart" value="Save"/>
+					</td>
+                                        <td>
+						<input class="button" type="button" id="save_data" name="save_data" value="Save Data"/>
 					</td>
 				</tr>
 			</tbody>

@@ -268,37 +268,83 @@ function getChartData(){
 }
 
 function getConfiguration(){
-    return 'var chart_title ="' + $("#chart_title").val() + '",' +
-	'chart_label ="' +  $("#chart_label").val() + '",' +
-	'height =' +  $("#height").val() + ',' +
-	'width =' +  $("#width").val() + ',' +
-	'radio =' +  ($("#radio").val() || 100) + ',' +
-	'min_scale_value =' +  $("#min_scale_value").val() + ',' +
-	'max_scale_value =' +  $("#max_scale_value").val() + ',' +
-	'scale_auto =' +  $("#scale_auto").is(':checked') + ',' +
-	'stroke =' +  $("#stroke").is(':checked') + ',' +
-	'exploded =' +  $("#exploded").is(':checked') + ',' +
-	'x_axis_on_zero =' +  $("#x_axis_on_zero").is(':checked') + ',' +
-	'symbol_position ="' +  $("#symbol_position").val() + '",' +
-	'orientation ="' +  $("#orientation").val() + '",' +
-	'titles_font ="' +  $("#titles_font").val() + '",' +
-	'scale_intervals =' +  $("#scale_intervals").val() + ',' +
-	'show_groups_labels =' +  $("#show_groups_labels").is(':checked') + ',' +
-	'show_groups_background =' +  $("#show_groups_background").is(':checked') + ',' +
-	'chart_labels_position ="' +  $("#chart_labels_position").val() + '",' +
-	'chart_labels_color ="' +  '#' + $("#chart_labels_color").val() + '",' +
-	'grid_lines_color ="' +  '#' + $("#grid_lines_color").val() + '",' +
-	'background_color ="' +  '#' + $("#background_color").val() + '",' +
-	'label_background_color ="' +  '#' + $("#label_background_color").val() + '",' +
-	'label_text_color ="' +  '#' + $("#label_text_color").val() + '",' +
-	'fit_scale =' +  $("#fit_scale").is(':checked') + ',' +
-	'show_scale =' +  $("#show_scale").is(':checked') + ',' +
-	'show_axis =' +  $("#show_axis").is(':checked') + ',' +
-	'show_gridlines =' +  $("#show_gridlines").is(':checked') + ',' +
-	'show_chart_labels =' +  $("#show_chart_labels").is(':checked') + ',' +
-	'show_legend =' +  $("#show_legend").is(':checked') + ',' +
-	'rtl =' +  $("#rtl").is(':checked') + ',' +
-	'use_background_color =' +  $("#use_background_color").is(':checked') + ';';
+    var config = {
+        chart_title: $("#chart_title").val(),
+	chart_label: $("#chart_label").val(),
+	height: $("#height").val(),
+        width: $("#width").val(),
+	radio: ($("#radio").val() || 100),
+	min_scale_value: $("#min_scale_value").val(),
+	max_scale_value: $("#max_scale_value").val(),
+	scale_auto: $("#scale_auto").is(':checked'),
+	stroke: $("#stroke").is(':checked'),
+	exploded: $("#exploded").is(':checked'),
+	x_axis_on_zero: $("#x_axis_on_zero").is(':checked'),
+        symbol_position: $("#symbol_position").val(),
+	orientation: $("#orientation").val(),
+	titles_font: $("#titles_font").val(),
+	scale_intervals: $("#scale_intervals").val(),
+	show_groups_labels: $("#show_groups_labels").is(':checked'),
+	show_groups_background: $("#show_groups_background").is(':checked'),
+	chart_labels_position: $("#chart_labels_position").val(),
+	chart_labels_color: '#' + $("#chart_labels_color").val(),
+	grid_lines_color: '#' + $("#grid_lines_color").val(),
+	background_color: '#' + $("#background_color").val(),
+	label_background_color: '#' + $("#label_background_color").val(),
+	label_text_color: '#' + $("#label_text_color").val(),
+	fit_scale: $("#fit_scale").is(':checked'),
+	show_scale: $("#show_scale").is(':checked'),
+	show_axis: $("#show_axis").is(':checked'),
+	show_gridlines: $("#show_gridlines").is(':checked'),
+	show_chart_labels: $("#show_chart_labels").is(':checked'),
+	show_legend: $("#show_legend").is(':checked'),
+	rtl: $("#rtl").is(':checked'),
+	use_background_color: $("#use_background_color").is(':checked')
+    };
+    return config;
+}
+
+function loadConfiguration(config) {
+    $("#chart_title").val(config.chart_title);
+    $("#chart_label").val(config.chart_label);
+    $("#height").val(config.height);
+    $("#width").val(config.width);
+    $("#radio").val(config.radio);
+    $("#min_scale_value").val(config.min_scale_value);
+    $("#max_scale_value").val(config.max_scale_value);
+    $("#scale_auto").attr("checked", config.scale_auto);
+    $("#stroke").attr("checked", config.stroke);
+    $("#exploded").attr("checked", config.exploded);
+    $("#x_axis_on_zero").attr("checked", config.x_axis_on_zero);
+    $("#symbol_position").val(config.symbol_position);
+    $("#orientation").val(config.orientation);
+    $("#titles_font").val(config.titles_font);
+    $("#scale_intervals").val(config.scale_intervals);
+    $("#show_groups_labels").attr('checked', config.show_groups_labels);
+    $("#show_groups_background").attr('checked', config.show_groups_background),
+    $("#chart_labels_position").val(config.chart_labels_position);
+    $("#chart_labels_color").val(config.chart_labels_color.substr(1));
+    $("#grid_lines_color").val(config.grid_lines_color.substr(1));
+    $("#background_color").val(config.background_color.substr(1));
+    $("#label_background_color").val(config.label_background_color.substr(1));
+    $("#label_text_color").val(config.label_text_color.substr(1));
+    $("#fit_scale").attr('checked', config.fit_scale);
+    $("#show_scale").attr('checked', config.show_scale);
+    $("#show_axis").attr('checked', config.show_axis);
+    $("#show_gridlines").attr('checked', config.show_gridlines);
+    $("#show_chart_labels").attr('checked', config.show_chart_labels);
+    $("#show_legend").attr('checked', config.show_legend);
+    $("#rtl").attr('checked', config.rtl);
+    $("#use_background_color").attr('checked', config.use_background_color)
+}
+
+function evalConfiguration(){
+    var config = getConfiguration();
+    for (var name in config) {
+        if (config.hasOwnProperty(name)) {
+            window[name] = config[name];
+        }
+    }
 }
 
 function roundUp(number, fit){
@@ -367,17 +413,17 @@ function editGroup(table){
 		$('#group_name').val('');
 	} else { 						//if select edit and then delete the row
 		edited_group = null;
-		addGroup(table);
+	    addGroup(table, $('#group_name').val());
 	}
 }
 
-function addGroup(table) {
+function addGroup(table, groupName) {
 	if(edited_group){
 		editGroup(table);
 		return;
 	}
-	var group_name = $('#group_name').val(),
-		group_id = 'group_' + Group.next_id.toString();
+        var group_name = groupName,
+        group_id = 'group_' + Group.next_id.toString();
 
 	var group = new Group(group_id, group_name);
 	if(!group.validate()){
@@ -457,19 +503,23 @@ function editSerie(table){
 		$('#serie_name').val('');
 	} else { 						//if select edit and then delete the row
 		edited_serie = null;
-		addSerie(table);
+	    addSerie(table, 
+                     $('#serie_name').val(),
+                     "#" + $('#serie_color').val(),
+                     $("#dot_type").val());
 	}
 }
 
-function addSerie(table) {
+function addSerie(table, serieName, serieColor, serieDotType) {
 	if(edited_serie){
 		editSerie(table);
 		return;
 	}
-	var serie_name = $('#serie_name').val(),
-		serie_color = '#' + $('#serie_color').val(),
-		serie_id = 'serie_' + Serie.next_id.toString(),
-		dot_type = $('#dot_type').val();
+	var serie_name = serieName,
+        serie_color = serieColor,
+        dot_type = serieDotType,
+        serie_id = 'serie_' + Serie.next_id.toString();
+		
 	
 	var serie = new Serie(serie_id, serie_name, serie_color, dot_type);
 	if(!serie.validate()){
@@ -548,18 +598,21 @@ function editValue(table){
 		$('#value_data').val('');
 	} else { 						//if select edit and then delete the row
 		edited_value = null;
-		addValue(table);
+	    addValue(table, 
+                     $('#group').val(),
+                     $('#serie').val(),
+                     $('#value_data').val());
 	}
 }
 
-function addValue(table) {
+function addValue(table, groupName, serieName, inputValue) {
 	if(edited_value){
 		editValue(table);
 		return;
 	}
-	var group = groups.get($('#group').val()),
-		serie = series.get($('#serie').val()),
-		value = $('#value_data').val(),
+	var group = groups.get(groupName),
+		serie = series.get(serieName),
+		value = inputValue,
 		data_id = 'value_' + Data.next_id.toString();
 
 	var d = new Data(data_id, group, serie, value);
@@ -665,34 +718,104 @@ function enableButton(button_id){
     $('#'+button_id).removeClass("disabled_button");    	
 }
 
+function findByName(list, name) {
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].name == name) {
+            return list[i];
+        }
+    }
+}
+
 $(document).ready(function() {
     $(".popup").hide();
     disableButton('save_chart');
+
+    //dummy button just to hide ugly file selection control
+    $('#open_data').click(function() {
+        $("#data_file").click();
+    });
+    //when a file is selected trigger read and reload
+    $('#data_file').change(function(e) {
+        Filesystem.loadData(e.target.files[0], function(fileContent) {
+            try {
+                var chartObject = JSON.parse(fileContent);
+                if (!chartObject.config || !chartObject.data) {
+                    throw("error");
+                }
+                edited_group = edited_serie = edited_value = undefined;
+                groups = [], series = [], data = [];
+                //load groups
+                Group.next_id = 1;
+                var groupTable = $('#add_group').parents('table');
+                for (var i = 0; i < chartObject.groups.length; i++) {
+                    var g = chartObject.groups[i];
+                    addGroup(groupTable, g.name);
+                }
+                //load series
+                Serie.next_id = 1;
+                var seriesTable = $('#add_serie').parents('table');
+                for (var i = 0; i < chartObject.series.length; i++) {
+                    var s = chartObject.series[i];
+                    addSerie(seriesTable, s.name, s.color, s.dot_type);
+                }
+                //load values
+                Data.next_id = 1;
+                var dataTable = $('#add_value').parents('table');
+                for (var i = 0; i < chartObject.data.length; i++) {
+                    var dataPoint = chartObject.data[i];
+                    var groupId = findByName(groups, dataPoint.group.name).id;
+                    var serieId = findByName(series, dataPoint.serie.name).id;
+                    addValue(dataTable, groupId, serieId, dataPoint.value);
+                }
+                //load configuration
+                loadConfiguration(chartObject.config);
+
+            } catch(e) {
+                alert('Selected file is not a valid chart');
+            }
+        });
+    });
+    $("#save_data").click(function() {
+        var config = getConfiguration();
+        var bundle = {
+            config : config,
+            data : data,
+            groups : groups,
+            series : series
+        };
+        Filesystem.saveData(bundle);
+    });
     
-	$('#config').click(function(e){
-		popup('config_chart_container', e);
-	});
-	$('#close_config').click(function(e){
-		if(validateSettings()){
-			popup('config_chart_container', e);	
-		}
-	});
-	$('#chart_data').click(function(e){
-		popup('data_chart_container', e);
-	});
-	$('#close_data').click(function(e){
-		popup('data_chart_container', e);
-	});
-	$('#add_group').click(function(){
-		addGroup($(this).parents('table'));
-	});
-	$('#add_serie').click(function(){
-		addSerie($(this).parents('table'));
-	});
-	$('#add_value').click(function(){
-		addValue($(this).parents('table'));
-	});
-	BrowserDetect.init();
+    $('#config').click(function(e){
+	popup('config_chart_container', e);
+    });
+    $('#close_config').click(function(e){
+	if(validateSettings()){
+	    popup('config_chart_container', e);	
+	}
+    });
+    $('#chart_data').click(function(e){
+	popup('data_chart_container', e);
+    });
+    $('#close_data').click(function(e){
+	popup('data_chart_container', e);
+    });
+    $('#add_group').click(function(){
+	addGroup($(this).parents('table'), $('#group_name').val());
+    });
+    $('#add_serie').click(function(){
+	addSerie($(this).parents('table'), 
+                 $('#serie_name').val(),
+                 "#" + $('#serie_color').val(),
+                 $("#dot_type").val());
+    });
+    $('#add_value').click(function(){
+	addValue($(this).parents('table'), 
+                     $('#group').val(),
+                     $('#serie').val(),
+                     $('#value_data').val());
+    });
+    BrowserDetect.init();
 });
 
 var BrowserDetect = {
