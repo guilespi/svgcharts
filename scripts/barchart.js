@@ -590,7 +590,7 @@
     
     $(document).ready(function() {
         $("#save_chart").click(function() {
-            Filesystem.saveChart(r, "barchart", "svg");
+            Filesystem.saveChart(r, "barchart", "fxg");
         });
         $("#generate_chart").click(function() {
             generateChart();
