@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="scripts/css-pop.js"></script>
 	<script type="text/javascript" src="scripts/raphael-min.js"></script>
 	<script type="text/javascript" src="scripts/g.raphael-min.js"></script>
+	<script type="text/javascript" src="scripts/fraphael.js"></script>
 	<script type="text/javascript" src="scripts/g.pie.js"></script>
     <script type="text/javascript" src="scripts/raphael.export.js"></script>
     <script type="text/javascript" src="scripts/jscolor/jscolor.js"></script>
@@ -27,11 +28,11 @@
 					<td>
 						<input class="button" type="button" id="chart_data" name="chart_data" value="Chart Data"/>
 					</td>
-                                        <td>
-                                          <input class="button" type="button" id="open_data" name="open_data" value="Open Data"/>
-                                          <div style='height:0px;width:0px; overflow:hidden;'>
-                                            <input id="data_file" type="file" value="open data"/>
-                                          </div>
+                    <td>
+                      <input class="button" type="button" id="open_data" name="open_data" value="Open Data"/>
+                        <div style='height:0px;width:0px; overflow:hidden;'>
+                            <input id="data_file" type="file" value="open data"/>
+                        </div>
 					</td>
 				</tr>
 				<tr>
@@ -39,9 +40,7 @@
 						<input class="button" type="button" id="generate_chart" name="generate_chart" value="Generate Chart"/>
 					</td>
 					<td>
-						<input class="button
-	special_button" type="button" id="save_chart"
-	name="save_chart" value="Export SVG"/>
+						<input class="button special_button" type="button" id="save_chart" name="save_chart" value="Export SVG"/>
 					</td>
                                         <td>
 						<input class="button" type="button" id="save_data" name="save_data" value="Save Data"/>
@@ -148,6 +147,20 @@
 							<input id="radio" type="number" value="100">
 						</td>
 					</tr>
+                    <tr>
+                        <th>
+                            <label for="effect">Effect</label>
+                        </th>
+                        <td>
+                            <select id="effect">
+                                <option value="none">None</option>
+                                <option value="emboss">Emboss</option>
+                                <option value="shadow">Shadow</option>
+                            </select>
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
 				</tbody>
 			</table>
 			<div class="poup_buttons">

@@ -28,12 +28,12 @@
 					<td>
 						<input class="button" type="button" id="chart_data" name="chart_data" value="Chart Data"/>
 					</td>
-                                        <td>
-                                          <input class="button" type="button" id="open_data" name="open_data" value="Open Data"/>
-                                          <div style='height:0px;width:0px; overflow:hidden;'>
-                                            <input id="data_file" type="file" value="open data"/>
-                                          </div>
-					</td>                                     
+                    <td>
+                        <input class="button" type="button" id="open_data" name="open_data" value="Open Data"/>
+                        <div style='height:0px;width:0px; overflow:hidden;'>
+                            <input id="data_file" type="file" value="open data"/>
+                        </div>
+					</td>                                  
 				</tr>
 				<tr>
 					<td>
@@ -42,7 +42,7 @@
 					<td>
 						<input class="button special_button" type="button" id="save_chart" name="save_chart" value="Export SVG"/>
 					</td>
-                                        <td>
+					<td>
 						<input class="button" type="button" id="save_data" name="save_data" value="Save Data"/>
 					</td>
 				</tr>
@@ -240,6 +240,33 @@
 						<td>
 							<input id="height" type="number" value="320">
 						</td>
+					</tr>
+					<tr>
+                        <th>
+                            <label for="baseline_value">Baseline Value</label>
+                        </th>
+                        <td>
+                            <input id="baseline_value" type="number" value="0">
+                        </td>
+                       <th>
+                           <label for="show_baseline">Show Baseline</label>
+                           <input type="checkbox" id="show_baseline" />
+                       </th>
+                       <td></td>                        					   
+					</tr>
+					<tr>
+					   <th>
+					       <label for="baseline_text">Baseline Text</label>
+					   </th>
+					   <td>
+					       <input type="text" id="baseline_text" name="baseline_text" value="Baseline Text"/>
+					   </td>
+                        <th>
+                            <label for="baseline_color">Baseline Color</label>
+                        </th>
+                        <td>
+                            <input id="baseline_color" class="color" type="text" value="178F1F">
+                        </td>
 					</tr>
 				</tbody>
 			</table>

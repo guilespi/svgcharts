@@ -269,37 +269,42 @@ function getChartData(){
 
 function getConfiguration(){
     var config = {
-        chart_title: $("#chart_title").val(),
-	chart_label: $("#chart_label").val(),
-	height: parseInt($("#height").val(), 10),
-        width: parseInt($("#width").val(), 10),
-	radio: (parseInt($("#radio").val(), 10) || 100),
-	min_scale_value: parseInt($("#min_scale_value").val(), 10),
-	max_scale_value: parseInt($("#max_scale_value").val(), 10),
-	scale_auto: $("#scale_auto").is(':checked'),
-	stroke: $("#stroke").is(':checked'),
-	exploded: $("#exploded").is(':checked'),
-	x_axis_on_zero: $("#x_axis_on_zero").is(':checked'),
-        symbol_position: $("#symbol_position").val(),
-	orientation: $("#orientation").val(),
-	titles_font: $("#titles_font").val(),
-	scale_intervals: parseInt($("#scale_intervals").val(), 10),
-	show_groups_labels: $("#show_groups_labels").is(':checked'),
-	show_groups_background: $("#show_groups_background").is(':checked'),
-	chart_labels_position: $("#chart_labels_position").val(),
-	chart_labels_color: '#' + $("#chart_labels_color").val(),
-	grid_lines_color: '#' + $("#grid_lines_color").val(),
-	background_color: '#' + $("#background_color").val(),
-	label_background_color: '#' + $("#label_background_color").val(),
-	label_text_color: '#' + $("#label_text_color").val(),
-	fit_scale: $("#fit_scale").is(':checked'),
-	show_scale: $("#show_scale").is(':checked'),
-	show_axis: $("#show_axis").is(':checked'),
-	show_gridlines: $("#show_gridlines").is(':checked'),
-	show_chart_labels: $("#show_chart_labels").is(':checked'),
-	show_legend: $("#show_legend").is(':checked'),
-	rtl: $("#rtl").is(':checked'),
-	use_background_color: $("#use_background_color").is(':checked')
+    		chart_title: $("#chart_title").val(),
+    		chart_label: $("#chart_label").val(),
+    		height: parseInt($("#height").val(), 10),
+    		width: parseInt($("#width").val(), 10),
+			radio: (parseInt($("#radio").val(), 10) || 100),
+			min_scale_value: parseInt($("#min_scale_value").val(), 10),
+			max_scale_value: parseInt($("#max_scale_value").val(), 10),
+			scale_auto: $("#scale_auto").is(':checked'),
+			stroke: $("#stroke").is(':checked'),
+			exploded: $("#exploded").is(':checked'),
+			x_axis_on_zero: $("#x_axis_on_zero").is(':checked'),
+			symbol_position: $("#symbol_position").val(),
+			orientation: $("#orientation").val(),
+			titles_font: $("#titles_font").val(),
+			scale_intervals: parseInt($("#scale_intervals").val(), 10),
+			show_groups_labels: $("#show_groups_labels").is(':checked'),
+			show_groups_background: $("#show_groups_background").is(':checked'),
+			chart_labels_position: $("#chart_labels_position").val(),
+			chart_labels_color: '#' + $("#chart_labels_color").val(),
+			grid_lines_color: '#' + $("#grid_lines_color").val(),
+			background_color: '#' + $("#background_color").val(),
+			label_background_color: '#' + $("#label_background_color").val(),
+			label_text_color: '#' + $("#label_text_color").val(),
+			fit_scale: $("#fit_scale").is(':checked'),
+			show_scale: $("#show_scale").is(':checked'),
+			show_axis: $("#show_axis").is(':checked'),
+			show_gridlines: $("#show_gridlines").is(':checked'),
+			show_chart_labels: $("#show_chart_labels").is(':checked'),
+			show_legend: $("#show_legend").is(':checked'),
+			rtl: $("#rtl").is(':checked'),
+			use_background_color: $("#use_background_color").is(':checked'),
+			effect: $("#effect").val() || "none",
+			show_baseline: $("#show_baseline").is(':checked'),
+			baseline_text: $("#baseline_text").val() || "",
+			baseline_color: '#' + $("#baseline_color").val() || "",
+			baseline_value: parseInt($("#baseline_value").val(), 10) || 0
     };
     return config;
 }
@@ -335,7 +340,11 @@ function loadConfiguration(config) {
     $("#show_chart_labels").attr('checked', config.show_chart_labels);
     $("#show_legend").attr('checked', config.show_legend);
     $("#rtl").attr('checked', config.rtl);
-    $("#use_background_color").attr('checked', config.use_background_color)
+    $("#use_background_color").attr('checked', config.use_background_color);
+	$("#show_baseline").attr('checked', config.show_baseline);
+	$("#baseline_text").val(config.baseline_text);
+	$("#baseline_color").val(config.baseline_color.substr(1));
+	$("#baseline_value").val(config.baseline_value);
 }
 
 function evalConfiguration(){

@@ -45,7 +45,7 @@
     		label_text_color, fit_scale, show_scale, show_axis, show_gridlines, show_bars_labels, 
     		use_background_color, scale_intervals, show_groups_labels, show_groups_background, 
     		titles_font, show_legend, rtl, min_scale_value, max_scale_value, scale_auto, 
-    		symbol_position, stroke, data) {
+    		symbol_position, stroke, show_baseline, baseline_text, baseline_color, baseline_value, data) {
 
     	var data_bundle = parseChartData(data);
     	if(!data_bundle || data_bundle.data.length == 0){
@@ -114,7 +114,10 @@
             //create chart
             var x_pos = (min < 0 ? (x-1 + (getHScaleFactor(width, max) * Math.abs(min))) : x);
         	chart = r.hbarchart(x_pos, y, width, height, chart_data, {type: "square", gutter:gutter, 
-        		colors:series_colors}, max, symbols, stroke);	
+        		colors:series_colors}, max, symbols, stroke);
+        	//show baseline
+        	showHorizontalBaseline(x, y, min, max, width, height, bars, gutter, 
+            		show_baseline, baseline_text, baseline_color, baseline_value);
         } else if(orientation == "V") {
         	//create axis
         	setVValuesAxis(x, y, min, max, width, height, bars, gutter, grid_lines_color,
@@ -126,6 +129,9 @@
         	chart = r.barchart(x, y, width, height, chart_data, 
         			{type: "square", gutter:gutter, colors:series_colors}, max, 
         			symbols, stroke);
+        	//show baseline
+        	showVerticalBaseline(x, y, min, max, width, height, bars, gutter, 
+            		show_baseline, baseline_text, baseline_color, baseline_value);      	
         }
         //set chart title
         setChartTitle(x, y, width, bars, gutter, min, max, orientation, chart_title, titles_font);
@@ -331,6 +337,10 @@
     	return y_pos_ini + (max * getVScaleFactor(height, gutter, max));
     }
     
+    function getVYPosBaseline(y_pos_zero, height, gutter, max, value){
+    	return y_pos_zero - (value * getVScaleFactor(height, gutter, max));
+    }
+    
     function getVYPosNegative(y_pos_zero, height, gutter, max, min){
     	return y_pos_zero + Math.abs(min * getVScaleFactor(height, gutter, max));
     }
@@ -360,6 +370,28 @@
     	}
     	return interval;
     }
+        
+    function showVerticalBaseline(x, y, min, max, width, height, bars, gutter, 
+    		show_baseline, baseline_text, baseline_color, baseline_value){
+    	if(show_baseline && baseline_value > (min < 0 ? min : 0) && baseline_value < max){
+            var bar_width = getVBarWidth(width, bars, gutter),
+        		bars_space = getVBarSpace(bar_width, gutter),
+        		font_size = 18;
+        	var y_pos_ini = getVYPosIni(y, height, gutter, max);    	
+        	var y_pos_zero = getVYPosZero(y_pos_ini, height, gutter, max);    		
+    		var y_pos_baseline = getVYPosBaseline(y_pos_zero, height, gutter, max, baseline_value);
+        	var x_pos_ini = getVXPosIni(x, bars_space);
+        	var x_pos_fin = getVXPosFin(x_pos_ini, width);
+        	
+    		var baseline = r.path("M" + (x_pos_ini).toString() + "," + (y_pos_baseline).toString() + "L"+ (x_pos_fin).toString() + "," + (y_pos_baseline).toString());
+    		baseline.attr("stroke", baseline_color);
+    		
+    		var baseline_label = r.text(x_pos_fin, y_pos_baseline - 15, baseline_text);
+    		baseline_label.attr({ fill: baseline_color });
+    		baseline_label.attr('font-size', font_size.toString());    
+    		baseline_label.attr('text-anchor', 'end');
+    	}
+    }
     
     function setVValuesAxis(x, y, min, max, width, height, bars, gutter, grid_lines_color,
     		use_background_color, background_color, label_background_color, label_text_color,
@@ -371,7 +403,7 @@
         	bars_space = getVBarSpace(bar_width, gutter),
         	font_size = 18;
     	//set axis positions
-    	var y_pos_ini = getVYPosIni(y, height, gutter, max);
+    	var y_pos_ini = getVYPosIni(y, height, gutter, max);    	
     	var y_pos_zero = getVYPosZero(y_pos_ini, height, gutter, max);
     	var y_pos_negative = getVYPosNegative(y_pos_zero, height, gutter, max, min);
     	var x_pos_ini = getVXPosIni(x, bars_space);
@@ -405,7 +437,7 @@
     		}
     		if(show_gridlines){
         		gridline = r.path("M" + x_pos_ini.toString() + "," + (y_value_pos + 1).toString() + "L"+ (x_pos_fin).toString() + "," + (y_value_pos + 1).toString());
-        		gridline.attr ("stroke", grid_lines_color);    			
+        		gridline.attr("stroke", grid_lines_color);    			
     		}
     		y_value_pos -= interval_pos;
     	}
@@ -478,6 +510,35 @@
     function getHYPosFin(y, bar_width, bars_space, bars){
     	return y + (bar_width + bars_space)*bars;
     }
+
+    function getHXPosBaseline(x_pos_zero, width, max, value){
+    	return x_pos_zero + (value * getHScaleFactor(width, max));
+    }
+    
+    function showHorizontalBaseline(x, y, min, max, width, height, bars, gutter, 
+    		show_baseline, baseline_text, baseline_color, baseline_value){
+    	if(show_baseline && baseline_value > (min < 0 ? min : 0) && baseline_value < max){
+            var bar_width = getHBarWidth(height, bars, gutter),
+	    		bars_space = getHBarSpace(bar_width, gutter),
+	    		font_size = 18;	
+	        var x_negative_offset = getHXNegativeOffset(min, max, width);
+	    	var y_pos_ini = getHYPosIni(y);
+	    	var y_pos_fin = getHYPosFin(y, bar_width, bars_space, bars);
+	    	var x_pos_ini = getHXPosIni(x, min);
+	    	var x_pos_zero = x_pos_ini + x_negative_offset;
+	    	var x_pos_fin = getHXPosFin(x_pos_ini, width, x_negative_offset);
+	    	var x_pos_baseline = getHXPosBaseline(x_pos_zero, width, max, baseline_value);
+	    	
+	    	var baseline = r.path("M" + x_pos_baseline.toString() + "," + (y_pos_ini).toString() + "L" + x_pos_baseline.toString() + "," + y_pos_fin.toString());
+    		baseline.attr("stroke", baseline_color);
+
+    		var baseline_label = r.text(x_pos_baseline - 15, y_pos_ini + getTextWidth(baseline_text), baseline_text);
+    		baseline_label.attr({ fill: baseline_color });
+    		baseline_label.attr('font-size', font_size.toString());    
+    		baseline_label.attr('text-anchor', 'middle');
+    		baseline_label.attr('transform', 'r-90');
+    	}
+    }  
     
     function setHValuesAxis(x, y, min, max, width, height, bars, gutter, grid_lines_color,
     		use_background_color, background_color, label_background_color, label_text_color,
@@ -495,7 +556,7 @@
     	var y_pos_fin = getHYPosFin(y, bar_width, bars_space, bars);
     	var x_pos_ini = getHXPosIni(x, min);
     	var x_pos_zero = x_pos_ini + x_negative_offset;
-    	var x_pos_fin = getHXPosFin(x_pos_ini + width + x_negative_offset);
+    	var x_pos_fin = getHXPosFin(x_pos_ini, width, x_negative_offset);
         //set background color
     	if(use_background_color){
     		setBackgroundColor(x_pos_ini, y_pos_ini, width + x_negative_offset, (bar_width + bars_space)*bars, background_color);	
@@ -590,7 +651,7 @@
     
     $(document).ready(function() {
         $("#save_chart").click(function() {
-            Filesystem.saveChart(r, "barchart", "fxg");
+            Filesystem.saveChart(r, "barchart", "svg");
         });
         $("#generate_chart").click(function() {
             generateChart();
@@ -605,7 +666,7 @@
         		label_text_color, fit_scale, show_scale, show_axis, show_gridlines, show_chart_labels, 
         		use_background_color, scale_intervals, show_groups_labels, show_groups_background, 
         		titles_font, show_legend, rtl, min_scale_value, max_scale_value, scale_auto, 
-        		symbol_position, stroke, data)){
+        		symbol_position, stroke, show_baseline, baseline_text, baseline_color, baseline_value, data)){
         	enableButton('save_chart');
         }
     }
