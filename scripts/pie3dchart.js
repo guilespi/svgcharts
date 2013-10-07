@@ -99,7 +99,7 @@
     });
 
     function generateChart(){
-        evalConfiguration();
+        evalConfiguration();        
     	var data = getChartData();
         if(drawPieChart(chart_title, chart_label, height, width, 
         		chart_labels_position, chart_labels_color, show_chart_labels, 

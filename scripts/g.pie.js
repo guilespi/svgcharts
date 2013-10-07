@@ -140,11 +140,18 @@
                 var j = (opts.matchColors && opts.matchColors == true) ? values[i].order : i;
                 var p = paper.path(opts.init ? ipath : path).attr({ fill: opts.colors && opts.colors[j] || chartinst.colors[j] || "#666", stroke: opts.stroke || "#fff", "stroke-width": (opts.strokewidth == null ? 1 : opts.strokewidth), "stroke-linejoin": "round" });
 
+                if(opts.effect == 'emboss'){
+                	p.emboss();
+                } else if(opts.effect == 'shadow'){
+                	p.shadow();
+                }
+                
                 p.value = values[i];
                 p.middle = path.middle;
                 p.mangle = mangle;
                 sectors.push(p);
                 series.push(p);
+                
                 opts.init && p.animate({ path: path.join(",") }, (+opts.init - 1) || 1000, ">");
                 
                 if(opts.show_chart_labels){

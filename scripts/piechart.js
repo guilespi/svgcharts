@@ -20,8 +20,8 @@
     
     function drawPieChart(chart_title, chart_label, height, width, 
     		chart_labels_position, chart_labels_color, show_chart_labels, 
-    		titles_font, show_legend, rtl, symbol_position, stroke, exploded, radio, data) {
-
+    		titles_font, show_legend, rtl, symbol_position, stroke, exploded, radio, 
+    		effect, data) {
     	var data_bundle = parseChartData(data);
     	if(!data_bundle || data_bundle.data.length == 0){
     		return false;
@@ -53,14 +53,14 @@
         		 chart_labels_color:chart_labels_color,
         		 show_legend:show_legend,
         		 exploded:exploded,
-        		 symbols:symbols
+        		 symbols:symbols,
+        		 effect:effect
         		});
-        
         //set chart title
         setChartTitle(x, radio, chart_title, titles_font);
         //set chart label
         setChartLabel(x, y, radio, chart_label, titles_font);
-        
+
         return true;
     };
     
@@ -105,11 +105,12 @@
     });
 
     function generateChart(){
-        evalConfiguration();
+        evalConfiguration();        
     	var data = getChartData();
     	if(drawPieChart(chart_title, chart_label, height, width, 
         		chart_labels_position, chart_labels_color, show_chart_labels, 
-        		titles_font, show_legend, rtl, symbol_position, stroke, exploded, radio, data)){
+        		titles_font, show_legend, rtl, symbol_position, stroke, exploded, radio, 
+        		effect, data)){
         	enableButton('save_chart');
         }
     }

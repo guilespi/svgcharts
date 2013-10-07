@@ -354,12 +354,8 @@
     });
 	
     function generateChart(){
-    	evalConfiguration();
+    	evalConfiguration();    	
     	var data = getChartData();
-    	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":10,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":40,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":5,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":20,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":50,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":15,"symbol":""}]},{"id":"group_3","name":"g3","series":[{"id":"serie_1","name":"serie uno","color":"#FF930B","value":30,"symbol":""},{"id":"serie_2","name":"serie dos","color":"#3AB546","value":25,"symbol":""},{"id":"serie_3","name":"serie tres","color":"#262BAD","value":-10,"symbol":""}]}]';
-    	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":123,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":111,"symbol":""}]}]';
-    	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#141CFF","value":123,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"s1","color":"#141CFF","value":111,"symbol":""}]},{"id":"group_3","name":"g3","series":[{"id":"serie_1","name":"s1","color":"#141CFF","value":89,"symbol":""}]}]';
-    	//var data = '[{"id":"group_1","name":"g1","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":10,"symbol":""},{"id":"serie_2","name":"s2","color":"#4621FF","value":40,"symbol":""}]},{"id":"group_2","name":"g2","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":20,"symbol":""},{"id":"serie_2","name":"s2","color":"#4621FF","value":55,"symbol":""}]},{"id":"group_3","name":"g3","series":[{"id":"serie_1","name":"s1","color":"#FF930B","value":30,"symbol":""},{"id":"serie_2","name":"s2","color":"#4621FF","value":29,"symbol":""}]}]';
         if(drawLineChart(chart_title, chart_label, height, width, orientation, grid_lines_color,
         		chart_labels_position, chart_labels_color, background_color, label_background_color, 
         		label_text_color, fit_scale, show_scale, show_axis, show_gridlines, show_chart_labels, 
