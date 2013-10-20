@@ -183,6 +183,23 @@
 		// Other serializers should go here
 	};
 
+	function parseDefs(node){
+		var tostring = '';
+		var i;
+		if(node.childNodes){
+			tostring += '<' + node.nodeName;
+			for(i=0; i<node.attributes.length; i++){
+				tostring += ' ' + node.attributes[i].nodeName + '="' + node.attributes[i].nodeValue + '"';
+			}
+			tostring += '>';
+			for(i=0; i<node.childNodes.length; i++){
+				tostring += parseDefs(node.childNodes[i]);
+			}
+			tostring += '</' + node.nodeName + '>';
+		}
+		return tostring;
+	}
+	
 	R.fn.toSVG = function() {
 		var paper   = this,
 			restore = { svg: R.svg, vml: R.vml },
@@ -193,11 +210,18 @@
 		R.svg = true;
 		R.vml = false;
 
+		if(paper.defs){
+			svg += parseDefs(paper.defs);
+		}
 		for ( var node = paper.bottom; node != null; node = node.next ) {
 			if ( node.node.style.display === 'none' ) continue;
 
+			for(var i=0; i<node.node.attributes.length; i++){
+				if(node.node.attributes[i].name == 'filter'){
+					node.attrs['filter'] = node.node.attributes[i].value;
+				}
+			}
 			var attrs = '';
-
 			// Use serializer
 			if ( typeof serializer[node.type] === 'function' ) {
 				svg += serializer[node.type](node);

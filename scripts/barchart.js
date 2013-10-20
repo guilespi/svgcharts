@@ -184,7 +184,13 @@
     	//drwawing the border
     	x_pos_border = (x_pos_ini + x_pos_fin)/2 - (series_width/2);
     	y_pos_border = y_pos_fin + series_margin;
-    	r.rect(x_pos_border, y_pos_border, series_width, series_height).attr ("stroke-width", "1");
+    	var border = r.rect(x_pos_border, y_pos_border, series_width, series_height).attr ("stroke-width", "1");
+    	if(curved_edges){
+    		var radius = 10;
+    		border.attr("rx", radius);
+    		border.attr("ry", radius);
+    		border.attr("r", radius);    		
+    	}
     	//printing each serie
     	var label_x_pos, label_y_pos, label_text, row_width = labels_space, text_start_point;
     	label_x_pos = x_pos_border + labels_space;
@@ -218,9 +224,15 @@
     }
     
     function setBackgroundColor(x, y, width, height, background_color){
+    	var radius = 10;
     	var background = r.rect(x, y, width, height);
     	background.attr ("stroke-width", "0");
-    	background.attr ("fill", background_color);
+    	background.attr ("fill", background_color);    		
+    	if(curved_edges){
+        	background.attr("rx", radius);
+        	background.attr("ry", radius);
+        	background.attr("r", radius);
+    	}
     }
     
     function getTextWidth(text, big_text, bigger){
