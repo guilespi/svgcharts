@@ -304,7 +304,8 @@ function getConfiguration(){
 			show_baseline: $("#show_baseline").is(':checked'),
 			baseline_text: $("#baseline_text").val() || "",
 			baseline_color: '#' + $("#baseline_color").val() || "",
-			baseline_value: parseInt($("#baseline_value").val(), 10) || 0
+			baseline_value: parseInt($("#baseline_value").val(), 10) || 0,
+			curved_edges: $("#curved_edges").is(':checked')
     };
     return config;
 }
@@ -341,10 +342,12 @@ function loadConfiguration(config) {
     $("#show_legend").attr('checked', config.show_legend);
     $("#rtl").attr('checked', config.rtl);
     $("#use_background_color").attr('checked', config.use_background_color);
+    $("#effect").val(config.effect);
 	$("#show_baseline").attr('checked', config.show_baseline);
 	$("#baseline_text").val(config.baseline_text);
 	$("#baseline_color").val(config.baseline_color.substr(1));
 	$("#baseline_value").val(config.baseline_value);
+	$("#curved_edges").attr('checked', config.curved_edges);
 }
 
 function evalConfiguration(){
